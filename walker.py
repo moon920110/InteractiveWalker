@@ -28,8 +28,8 @@ class Walker:
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
 
-        self.dc_motor = DCControl(logger=self.logger)
-        self.step_motor = StepMotorControl(logger=self.logger)
+        # self.dc_motor = DCControl(logger=self.logger)
+        # self.step_motor = StepMotorControl(logger=self.logger)
         self.brain = Brain(logger=self.logger)
 
         self.stop_event = threading.Event()
@@ -41,16 +41,16 @@ class Walker:
             exit(1)
 
     def init(self):
-        dc_check = self.dc_motor.init()
-        step_check = self.step_motor.init()
+        # dc_check = self.dc_motor.init()
+        # step_check = self.step_motor.init()
         brain_check = self.brain.init()
 
-        if dc_check and step_check and brain_check:
-            self.logger.info("[Walker] init finish")
-            return True
-        else:
-            self.logger.error("[Walker] init error")
-            return False
+        # if dc_check and step_check and brain_check:
+        #     self.logger.info("[Walker] init finish")
+        #     return True
+        # else:
+        #     self.logger.error("[Walker] init error")
+        #     return False
 
     def _run_imu(self):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
