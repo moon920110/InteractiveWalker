@@ -2,6 +2,7 @@ import datetime
 import logging
 import threading
 import serial
+import time
 
 from parts.DC_motor_controller import DCControl
 from parts.step_motor_controller import StepMotorControl
@@ -56,6 +57,7 @@ class Walker:
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
             arduino.write(bytes('7', 'utf-8'))
+            time.sleep(0.05)
             self.tilt = arduino.readline()
             print(self.tilt)
         pass
