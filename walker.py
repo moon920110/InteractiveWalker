@@ -56,7 +56,7 @@ class Walker:
     def _run_imu(self):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            arduino.write(bytes('7', 'utf-8'))
+            arduino.write('7'.encode('utf-8'))
             time.sleep(0.05)
             self.tilt = arduino.readline()
             print(self.tilt)
