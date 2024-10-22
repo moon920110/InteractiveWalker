@@ -81,8 +81,8 @@ class Walker:
 
     def run_walker(self):
         imu_thread = threading.Thread(target=self._run_imu)
-        dc_thread = threading.Thread(target=self._run_dc)
-        step_thread = threading.Thread(target=self._run_step)
+        # dc_thread = threading.Thread(target=self._run_dc)
+        # step_thread = threading.Thread(target=self._run_step)
         brain_thread = threading.Thread(target=self._run_brain)
 
         try:
@@ -90,14 +90,14 @@ class Walker:
             self.logger.info(f'[Walker] imu thread start')
             brain_thread.start()
             self.logger.info(f'[Walker] Brain thread start')
-            dc_thread.start()
-            self.logger.info(f'[Walker] DC motor thread start')
-            step_thread.start()
-            self.logger.info(f'[Walker] Step motor thread start')
+            # dc_thread.start()
+            # self.logger.info(f'[Walker] DC motor thread start')
+            # step_thread.start()
+            # self.logger.info(f'[Walker] Step motor thread start')
 
             imu_thread.join()
-            step_thread.join()
-            dc_thread.join()
+            # step_thread.join()
+            # dc_thread.join()
             brain_thread.join()
 
         except KeyboardInterrupt:
@@ -109,8 +109,8 @@ class Walker:
             self.logger.info("[Walker] terminate Walker")
 
     def _terminate(self):
-        self.dc_motor.terminate()
-        self.step_motor.terminate()
+        # self.dc_motor.terminate()
+        # self.step_motor.terminate()
         self.brain.terminate()
 
 
