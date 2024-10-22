@@ -4,7 +4,7 @@ import cv2
 import multiprocessing as mp
 from multiprocessing import Manager
 import copy
-from sensors.app.FramerateMonitor import FramerateMonitor
+from app.FramerateMonitor import FramerateMonitor
 
 
 class Sensor:

@@ -41,7 +41,9 @@ class Brain:
 
 	def think(self):
 		images = self.sensor.get()
-		_, angle, speed = self.model(images, hmd_yaw=0)
+		# _, angle, speed = self.model(images, hmd_yaw=0)
+		angle = 0
+		speed = 0
 
 		visual_image = images[-1]
 		if hasattr(self.model, "visualized_image"):

@@ -80,11 +80,14 @@ class Walker:
             self.angle, self.speed = self.brain.think()
 
     def run_walker(self):
+        imu_thread = threading.Thread(target=self._run_imu)
         dc_thread = threading.Thread(target=self._run_dc)
         step_thread = threading.Thread(target=self._run_step)
         brain_thread = threading.Thread(target=self._run_brain)
 
         try:
+            imu_thread.start()
+            self.logger.info(f'[Walker] imu thread start')
             brain_thread.start()
             self.logger.info(f'[Walker] Brain thread start')
             dc_thread.start()
@@ -92,6 +95,7 @@ class Walker:
             step_thread.start()
             self.logger.info(f'[Walker] Step motor thread start')
 
+            imu_thread.join()
             step_thread.join()
             dc_thread.join()
             brain_thread.join()
