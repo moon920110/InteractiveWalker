@@ -1,6 +1,7 @@
 import datetime
 import logging
 import threading
+import serial
 
 from parts.DC_motor_controller import DCControl
 from parts.step_motor_controller import StepMotorControl
@@ -10,7 +11,7 @@ from parts.brain import Brain
 class Walker:
     def __init__(self):
         self.speed = 0
-        self. angle = 0
+        self.angle = 0
 
         # TODO: IMU
         self.tilt = 0
@@ -52,7 +53,10 @@ class Walker:
             return False
 
     def _run_imu(self):
-        # self.tilt = imu_func()
+        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+        while not self.stop_event.is_set():
+            self.tilt = arduino.readline()
+            print(self.tilt)
         pass
 
     def _run_dc(self):
