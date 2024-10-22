@@ -59,7 +59,7 @@ class Walker:
             arduino.write('7'.encode('utf-8'))
             time.sleep(0.05)
             self.tilt = arduino.readline()
-            print(self.tilt)
+            print(self.tilt.decode('utf-8'))
         pass
 
     def _run_dc(self):
