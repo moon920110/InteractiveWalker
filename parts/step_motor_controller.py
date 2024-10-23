@@ -30,8 +30,8 @@ class StepMotorControl:
 			GPIO.setup(self.dir_pin_rf, GPIO.OUT)
 			GPIO.setup(self.en_pin_rf, GPIO.OUT)
 
-			GPIO.output(self.en_pin_lf, GPIO.LOW)
-			GPIO.output(self.en_pin_rf, GPIO.LOW)
+			GPIO.output(self.en_pin_lf, GPIO.HIGH)
+			GPIO.output(self.en_pin_rf, GPIO.HIGH)
 
 			if self.logger:
 				self.logger.debug(f'[Step motor] ACTIVATE pul pin: {self.pul_pin_lf}, dir pin: {self.dir_pin_lf}, en pin: {self.en_pin_lf}')
