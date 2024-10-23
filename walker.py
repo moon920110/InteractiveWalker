@@ -72,6 +72,7 @@ class Walker:
 
     def _run_step(self):
         while not self.stop_event.is_set():
+            print(self.tilt)
             if self.tilt > 45:
                 self.step_motor.upward(self.tilt)
             elif self.tilt < -45:

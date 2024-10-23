@@ -55,9 +55,9 @@ class StepMotorControl:
 			time.sleep(0.0005)  # 펄스 너비
 			GPIO.output(self.pul_pin_lf, GPIO.LOW)
 			time.sleep(0.0005)  # 펄스 간격
-			GPIO.output(self.pul_pin_rf, GPIO.HIGH)
-			time.sleep(0.0005)
-			GPIO.output(self.pul_pin_rf, GPIO.LOW)
+			# GPIO.output(self.pul_pin_rf, GPIO.HIGH)
+			# time.sleep(0.0005)
+			# GPIO.output(self.pul_pin_rf, GPIO.LOW)
 
 	def upward(self, angle):
 		self.update('high', 100)
