@@ -15,7 +15,7 @@ class Walker:
         self.angle = 0
 
         # TODO: IMU
-        self.tilt = 0
+        self.tilt = -50
 
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
@@ -30,7 +30,7 @@ class Walker:
         self.logger.addHandler(fh)
 
         # self.dc_motor = DCControl(logger=self.logger)
-        # self.step_motor = StepMotorControl(logger=self.logger)
+        self.step_motor = StepMotorControl(logger=self.logger)
         self.brain = Brain(logger=self.logger)
 
         self.stop_event = threading.Event()
@@ -43,7 +43,7 @@ class Walker:
 
     def init(self):
         # dc_check = self.dc_motor.init()
-        # step_check = self.step_motor.init()
+        step_check = self.step_motor.init()
         brain_check = self.brain.init()
 
         # if dc_check and step_check and brain_check:
@@ -84,7 +84,7 @@ class Walker:
     def run_walker(self):
         imu_thread = threading.Thread(target=self._run_imu)
         # dc_thread = threading.Thread(target=self._run_dc)
-        # step_thread = threading.Thread(target=self._run_step)
+        step_thread = threading.Thread(target=self._run_step)
         brain_thread = threading.Thread(target=self._run_brain)
 
         try:
@@ -94,11 +94,11 @@ class Walker:
             self.logger.info(f'[Walker] Brain thread start')
             # dc_thread.start()
             # self.logger.info(f'[Walker] DC motor thread start')
-            # step_thread.start()
-            # self.logger.info(f'[Walker] Step motor thread start')
+            step_thread.start()
+            self.logger.info(f'[Walker] Step motor thread start')
 
             imu_thread.join()
-            # step_thread.join()
+            step_thread.join()
             # dc_thread.join()
             brain_thread.join()
 
@@ -112,7 +112,7 @@ class Walker:
 
     def _terminate(self):
         # self.dc_motor.terminate()
-        # self.step_motor.terminate()
+        self.step_motor.terminate()
         self.brain.terminate()
 
 
