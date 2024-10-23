@@ -12,14 +12,14 @@ class StepMotorControl:
 		self.dir_pin_rf = 11
 		self.en_pin_rf = 12
 
-	def init(self, pul_pin_lf, dir_pin_lf, en_pin_lf, pul_pin_rf, dir_pin_rf, en_pin_rf):
+	def init(self):
 		try:
-			self.pul_pin_lf = pul_pin_lf
-			self.dir_pin_lf = dir_pin_lf
-			self.en_pin_lf = en_pin_lf
-			self.pul_pin_rf = pul_pin_rf
-			self.dir_pin_rf = dir_pin_rf
-			self.en_pin_rf = en_pin_rf
+			# self.pul_pin_lf = pul_pin_lf
+			# self.dir_pin_lf = dir_pin_lf
+			# self.en_pin_lf = en_pin_lf
+			# self.pul_pin_rf = pul_pin_rf
+			# self.dir_pin_rf = dir_pin_rf
+			# self.en_pin_rf = en_pin_rf
 
 			GPIO.setmode(GPIO.BOARD)
 			GPIO.setup(self.pul_pin_lf, GPIO.OUT)
