@@ -10,14 +10,14 @@ from time import time, sleep
 
 def main(
         max_frame = 100,
-        foldername = 'walking_data/name',
+        foldername = '/home/cilab/media/yhssd',
         filename = 'test',
         normalize = False,
         counter = 0,
         norm_img_list = []
     ):
 
-    sensor = MultiSensors(['/dev/tty.SLAB_USBtoUART'])
+    sensor = MultiSensors(['/dev/ttyUSB0'])
     print("initializing sensors...")
     sensor.init_sensors()
     print("initializing sensors...Done")
@@ -51,7 +51,7 @@ def main(
             visual_image = cv2.resize(visual_image, (500, 500))
             total_image2 = copy.deepcopy(total_image)
 
-            total_image2 /= 1000
+            total_image2 /= 1500
             total_image2 = total_image2 * 255
             total_image2 = np.clip(total_image2, 0 ,255)
             # print(total_image2)
@@ -73,7 +73,7 @@ def main(
 
             #verbose
             print(f"FPS : {fps}, time: {time()}, Frames : {storage.frameCount}, Storage : {foldername}/{storage.getName()}")
-            sleep(2)
+            # sleep(2)
 
     sensor.close()
 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     main(
         max_frame = max_frame,
-        foldername = f'walking_data/{name}',
+        foldername = f'walker_data1024/{name}',
         filename = label,
         normalize = False
     )
