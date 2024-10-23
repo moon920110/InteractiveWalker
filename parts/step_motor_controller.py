@@ -30,7 +30,7 @@ class StepMotorControl:
 
 		GPIO.output(self.en_pin_lf, GPIO.HIGH)
 		GPIO.output(self.en_pin_rf, GPIO.HIGH)
-
+		print('set up done')
 		if self.logger:
 			self.logger.debug(f'[Step motor] ACTIVATE pul pin: {self.pul_pin_lf}, dir pin: {self.dir_pin_lf}, en pin: {self.en_pin_lf}')
 		return True
