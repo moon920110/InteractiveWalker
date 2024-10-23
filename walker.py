@@ -15,7 +15,7 @@ class Walker:
         self.angle = 0
 
         # TODO: IMU
-        self.tilt = 50
+        self.tilt = -50
 
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
