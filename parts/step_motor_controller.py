@@ -44,7 +44,6 @@ class StepMotorControl:
 	# 모터 제어 함수
 	def update(self, direction, pulses):
 		if direction == 'high':
-			print(direction)
 			GPIO.output(self.dir_pin_lf, GPIO.HIGH)
 			GPIO.output(self.dir_pin_rf, GPIO.HIGH)# 방향 설정 (HIGH 또는 LOW)
 		else:
@@ -52,6 +51,7 @@ class StepMotorControl:
 			GPIO.output(self.dir_pin_rf, GPIO.LOW)
 
 		for i in range(pulses):
+			print('pulse')
 			GPIO.output(self.pul_pin_lf, GPIO.HIGH)
 			time.sleep(0.0005)  # 펄스 너비
 			GPIO.output(self.pul_pin_lf, GPIO.LOW)
