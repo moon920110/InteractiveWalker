@@ -35,11 +35,11 @@ class Walker:
 
         self.stop_event = threading.Event()
 
-        try:
-            self.init()
-        except Exception as e:
-            self.logger.error(f"[Walker] init error: {e}")
-            exit(1)
+        # try:
+        self.init()
+        # except Exception as e:
+        #     self.logger.error(f"[Walker] init error: {e}")
+        #     exit(1)
 
     def init(self):
         # dc_check = self.dc_motor.init()
