@@ -3,7 +3,7 @@ import time
 
 
 class StepMotorControl:
-	def __init__(self, logger=True):
+	def __init__(self, logger=None):
 		self.logger = logger
 		self.pul_pin_lf = 7
 		self.dir_pin_lf = 11
