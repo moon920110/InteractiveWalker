@@ -20,7 +20,7 @@ class StepMotorControl:
 		# self.dir_pin_rf = dir_pin_rf
 		# self.en_pin_rf = en_pin_rf
 
-		GPIO.setmode(GPIO.BOARD)
+		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.pul_pin_lf, GPIO.OUT)
 		GPIO.setup(self.dir_pin_lf, GPIO.OUT)
 		GPIO.setup(self.en_pin_lf, GPIO.OUT)
