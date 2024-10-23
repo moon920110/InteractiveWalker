@@ -3,7 +3,7 @@ import time
 
 
 class StepMotorControl:
-	def __init__(self, logger=None):
+	def __init__(self, logger=True):
 		self.logger = logger
 		self.pul_pin_lf = 7
 		self.dir_pin_lf = 11
@@ -51,7 +51,6 @@ class StepMotorControl:
 			GPIO.output(self.dir_pin_rf, GPIO.LOW)
 
 		for i in range(pulses):
-			print('pulse')
 			GPIO.output(self.pul_pin_lf, GPIO.HIGH)
 			time.sleep(0.0005)  # 펄스 너비
 			GPIO.output(self.pul_pin_lf, GPIO.LOW)
