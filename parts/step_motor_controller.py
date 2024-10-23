@@ -33,11 +33,11 @@ class StepMotorControl:
 			GPIO.output(self.en_pin_rf, GPIO.LOW)
 
 			if self.logger:
-				self.logger.Debug(f'[Step motor] ACTIVATE pul pin: {self.pul_pin_lf}, dir pin: {self.dir_pin_lf}, en pin: {self.en_pin_lf}')
+				self.logger.debug(f'[Step motor] ACTIVATE pul pin: {self.pul_pin_lf}, dir pin: {self.dir_pin_lf}, en pin: {self.en_pin_lf}')
 			return True
 		except Exception as e:
 			if self.logger:
-				self.logger.Debug(f'[Step motor] init error: {e}')
+				self.logger.debug(f'[Step motor] init error: {e}')
 			return False
 
 	# 모터 제어 함수
@@ -60,12 +60,12 @@ class StepMotorControl:
 	def upward(self, angle):
 		self.update('high', 100)
 		if self.logger:
-			self.logger.Debug(f'[Step motor] upward with angle {100}')
+			self.logger.debug(f'[Step motor] upward with angle {100}')
 
 	def downward(self, angle):
 		self.update('low', angle)
 		if self.logger:
-			self.logger.Debug(f'[Step motor] downward with angle {100}')
+			self.logger.debug(f'[Step motor] downward with angle {100}')
 
 	def terminate(self):
 		GPIO.cleanup(self.pul_pin_lf)
@@ -75,4 +75,4 @@ class StepMotorControl:
 		GPIO.cleanup(self.dir_pin_rf)
 		GPIO.cleanup(self.en_pin_rf)
 		if self.logger:
-			self.logger.Debug(f'[Step motor] terminate Step motor')
+			self.logger.debug(f'[Step motor] terminate Step motor')
