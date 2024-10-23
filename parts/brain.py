@@ -48,8 +48,8 @@ class Brain:
 		visual_image = images[-1]
 		if hasattr(self.model, "visualized_image"):
 			visual_image = self.model.visualized_image
-		if not visualize(visual_image):
-			return
+		# if not visualize(visual_image):
+		# 	return
 
 		main_fps = round(self.fps_monitor.getFps())
 		sensor_fps = self.sensor.fps
