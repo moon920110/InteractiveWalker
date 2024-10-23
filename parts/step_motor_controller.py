@@ -5,12 +5,12 @@ import time
 class StepMotorControl:
 	def __init__(self, logger=None):
 		self.logger = logger
-		self.pul_pin_lf = 5
-		self.dir_pin_lf = 7
-		self.en_pin_lf = 8
-		self.pul_pin_rf = 10
-		self.dir_pin_rf = 11
-		self.en_pin_rf = 12
+		self.pul_pin_lf = 7
+		self.dir_pin_lf = 11
+		self.en_pin_lf = 13
+		self.pul_pin_rf = 15
+		self.dir_pin_rf = 16
+		self.en_pin_rf = 18
 
 	def init(self):
 		print(self.pul_pin_rf)
@@ -52,11 +52,12 @@ class StepMotorControl:
 
 		for i in range(pulses):
 			GPIO.output(self.pul_pin_lf, GPIO.HIGH)
-			GPIO.output(self.pul_pin_rf, GPIO.HIGH)
 			time.sleep(0.0005)  # 펄스 너비
 			GPIO.output(self.pul_pin_lf, GPIO.LOW)
-			GPIO.output(self.pul_pin_rf, GPIO.LOW)
 			time.sleep(0.0005)  # 펄스 간격
+			GPIO.output(self.pul_pin_rf, GPIO.HIGH)
+			time.sleep(0.0005)
+			GPIO.output(self.pul_pin_rf, GPIO.LOW)
 
 	def upward(self, angle):
 		self.update('high', 100)
@@ -64,7 +65,7 @@ class StepMotorControl:
 			self.logger.debug(f'[Step motor] upward with angle {100}')
 
 	def downward(self, angle):
-		self.update('low', angle)
+		self.update('low', 100)
 		if self.logger:
 			self.logger.debug(f'[Step motor] downward with angle {100}')
 
