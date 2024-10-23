@@ -13,6 +13,7 @@ class StepMotorControl:
 		self.en_pin_rf = 12
 
 	def init(self):
+		print(self.pul_pin_rf)
 		try:
 			# self.pul_pin_lf = pul_pin_lf
 			# self.dir_pin_lf = dir_pin_lf
