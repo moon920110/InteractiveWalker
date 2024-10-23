@@ -5,9 +5,9 @@ import time
 class StepMotorControl:
 	def __init__(self, logger=None):
 		self.logger = logger
-		self.pul_pin_lf = 5
-		self.dir_pin_lf = 7
-		self.en_pin_lf = 8
+		self.pul_pin_lf = 7
+		self.dir_pin_lf = 11
+		self.en_pin_lf = 13
 		self.pul_pin_rf = 15
 		self.dir_pin_rf = 16
 		self.en_pin_rf = 18
