@@ -13,33 +13,31 @@ class StepMotorControl:
 		self.en_pin_rf = 18
 
 	def init(self):
-		print(self.pul_pin_rf)
-		try:
-			# self.pul_pin_lf = pul_pin_lf
-			# self.dir_pin_lf = dir_pin_lf
-			# self.en_pin_lf = en_pin_lf
-			# self.pul_pin_rf = pul_pin_rf
-			# self.dir_pin_rf = dir_pin_rf
-			# self.en_pin_rf = en_pin_rf
+		# self.pul_pin_lf = pul_pin_lf
+		# self.dir_pin_lf = dir_pin_lf
+		# self.en_pin_lf = en_pin_lf
+		# self.pul_pin_rf = pul_pin_rf
+		# self.dir_pin_rf = dir_pin_rf
+		# self.en_pin_rf = en_pin_rf
 
-			GPIO.setmode(GPIO.BOARD)
-			GPIO.setup(self.pul_pin_lf, GPIO.OUT)
-			GPIO.setup(self.dir_pin_lf, GPIO.OUT)
-			GPIO.setup(self.en_pin_lf, GPIO.OUT)
-			GPIO.setup(self.pul_pin_rf, GPIO.OUT)
-			GPIO.setup(self.dir_pin_rf, GPIO.OUT)
-			GPIO.setup(self.en_pin_rf, GPIO.OUT)
+		GPIO.setmode(GPIO.BOARD)
+		GPIO.setup(self.pul_pin_lf, GPIO.OUT)
+		GPIO.setup(self.dir_pin_lf, GPIO.OUT)
+		GPIO.setup(self.en_pin_lf, GPIO.OUT)
+		GPIO.setup(self.pul_pin_rf, GPIO.OUT)
+		GPIO.setup(self.dir_pin_rf, GPIO.OUT)
+		GPIO.setup(self.en_pin_rf, GPIO.OUT)
 
-			GPIO.output(self.en_pin_lf, GPIO.HIGH)
-			GPIO.output(self.en_pin_rf, GPIO.HIGH)
+		GPIO.output(self.en_pin_lf, GPIO.HIGH)
+		GPIO.output(self.en_pin_rf, GPIO.HIGH)
 
-			if self.logger:
-				self.logger.debug(f'[Step motor] ACTIVATE pul pin: {self.pul_pin_lf}, dir pin: {self.dir_pin_lf}, en pin: {self.en_pin_lf}')
-			return True
-		except Exception as e:
-			if self.logger:
-				self.logger.debug(f'[Step motor] init error: {e}')
-			return False
+		if self.logger:
+			self.logger.debug(f'[Step motor] ACTIVATE pul pin: {self.pul_pin_lf}, dir pin: {self.dir_pin_lf}, en pin: {self.en_pin_lf}')
+		return True
+		# except Exception as e:
+		# 	if self.logger:
+		# 		self.logger.debug(f'[Step motor] init error: {e}')
+		# 	return False
 
 	# 모터 제어 함수
 	def update(self, direction, pulses):
