@@ -1,5 +1,5 @@
 import cv2
-
+import numpy as np
 
 def visualize(image):
     if image.dtype != np.uint8:
