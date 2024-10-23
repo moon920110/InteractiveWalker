@@ -20,7 +20,7 @@ class StepMotorControl:
 		# self.dir_pin_rf = dir_pin_rf
 		# self.en_pin_rf = en_pin_rf
 
-		GPIO.setmode(GPIO.BCM)
+		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(self.pul_pin_lf, GPIO.OUT)
 		GPIO.setup(self.dir_pin_lf, GPIO.OUT)
 		GPIO.setup(self.en_pin_lf, GPIO.OUT)
@@ -49,14 +49,14 @@ class StepMotorControl:
 			GPIO.output(self.dir_pin_rf, GPIO.LOW)
 
 		for i in range(pulses):
-			# GPIO.output(self.pul_pin_lf, GPIO.HIGH)
-			# time.sleep(0.0005)  # 펄스 너비
-			# GPIO.output(self.pul_pin_lf, GPIO.LOW)
-			# time.sleep(0.0005)  # 펄스 간격
-			GPIO.output(self.pul_pin_rf, GPIO.HIGH)
-			time.sleep(0.0005)
-			GPIO.output(self.pul_pin_rf, GPIO.LOW)
-			time.sleep(0.0005)
+			GPIO.output(self.pul_pin_lf, GPIO.HIGH)
+			time.sleep(0.0005)  # 펄스 너비
+			GPIO.output(self.pul_pin_lf, GPIO.LOW)
+			time.sleep(0.0005)  # 펄스 간격
+			# GPIO.output(self.pul_pin_rf, GPIO.HIGH)
+			# time.sleep(0.0005)
+			# GPIO.output(self.pul_pin_rf, GPIO.LOW)
+			# time.sleep(0.0005)
 
 	def upward(self, angle):
 		self.update('high', 100)
