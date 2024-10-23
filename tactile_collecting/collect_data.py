@@ -39,41 +39,39 @@ def main(
             print(total_image.shape)
 
 
+        total_image = sensor.get()
+        total_image = total_image - base_image
 
-        if int(time() - base_time) % 10 <= 1:
-            total_image = sensor.get()
-            total_image = total_image - base_image
+        #visualize
+        visual_image = copy.deepcopy(total_image)
+        visual_image *= 255
+        visual_image = visual_image.astype(np.uint8)
+        visual_image = cv2.resize(visual_image, (500, 500))
+        total_image2 = copy.deepcopy(total_image)
 
-            #visualize
-            visual_image = copy.deepcopy(total_image)
-            visual_image *= 255
-            visual_image = visual_image.astype(np.uint8)
-            visual_image = cv2.resize(visual_image, (500, 500))
-            total_image2 = copy.deepcopy(total_image)
+        total_image2 /= 1500
+        total_image2 = total_image2 * 255
+        total_image2 = np.clip(total_image2, 0 ,255)
+        # print(total_image2)
 
-            total_image2 /= 1500
-            total_image2 = total_image2 * 255
-            total_image2 = np.clip(total_image2, 0 ,255)
-            # print(total_image2)
+        total_image2 = cv2.resize(total_image2.astype(np.uint8), (500, 500))
 
-            total_image2 = cv2.resize(total_image2.astype(np.uint8), (500, 500))
+        cv2.imshow("Pressure", total_image2)
+        if cv2.waitKey(1) & 0xff == 27:
+            break
 
-            cv2.imshow("Pressure", total_image2)
-            if cv2.waitKey(1) & 0xff == 27:
-                break
+        #fps
+        fps = sensor.getFps()
 
-            #fps
-            fps = sensor.getFps()
+        #unix timestep
+        ts = getUnixTimestamp()
 
-            #unix timestep
-            ts = getUnixTimestamp()
+        #store data
+        storage.addFrame(ts, {'pressure': total_image})
 
-            #store data
-            storage.addFrame(ts, {'pressure': total_image})
-
-            #verbose
-            print(f"FPS : {fps}, time: {time()}, Frames : {storage.frameCount}, Storage : {foldername}/{storage.getName()}")
-            # sleep(2)
+        #verbose
+        print(f"FPS : {fps}, time: {time()}, Frames : {storage.frameCount}, Storage : {foldername}/{storage.getName()}")
+        # sleep(2)
 
     sensor.close()
 
