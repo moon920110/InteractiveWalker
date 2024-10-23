@@ -37,7 +37,7 @@ class StepMotorControl:
 			return True
 		except Exception as e:
 			if self.logger:
-				self.logger.Error(f'[Step motor] init error: {e}')
+				self.logger.Debug(f'[Step motor] init error: {e}')
 			return False
 
 	# 모터 제어 함수
