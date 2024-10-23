@@ -5,9 +5,9 @@ import time
 class StepMotorControl:
 	def __init__(self, logger=None):
 		self.logger = logger
-		self.pul_pin_lf = 7
-		self.dir_pin_lf = 11
-		self.en_pin_lf = 13
+		self.pul_pin_lf = 5
+		self.dir_pin_lf = 7
+		self.en_pin_lf = 8
 		self.pul_pin_rf = 15
 		self.dir_pin_rf = 16
 		self.en_pin_rf = 18
@@ -42,14 +42,14 @@ class StepMotorControl:
 	# 모터 제어 함수
 	def update(self, direction, pulses):
 		if direction == 'high':
-			GPIO.output(self.dir_pin_lf, True)
-			GPIO.output(self.dir_pin_rf, True)# 방향 설정 (HIGH 또는 LOW)
+			GPIO.output(self.dir_pin_lf, GPIO.HIGH)
+			GPIO.output(self.dir_pin_rf, GPIO.HIGH)# 방향 설정 (HIGH 또는 LOW)
 		else:
-			GPIO.output(self.dir_pin_lf, False)
-			GPIO.output(self.dir_pin_rf, False)
+			GPIO.output(self.dir_pin_lf, GPIO.LOW)
+			GPIO.output(self.dir_pin_rf, GPIO.LOW)
 
 		for i in range(pulses):
-			GPIO.output(self.pul_pin_rf, True)
+			GPIO.output(self.pul_pin_rf, GPIO.HIGH)
 			time.sleep(0.0005)
 			# time.sleep(1)
 			# GPIO.output(self.pul_pin_rf, GPIO.LOW)
@@ -57,7 +57,7 @@ class StepMotorControl:
 			# time.sleep(1)
 
 		for i in range(pulses):
-			GPIO.output(self.pul_pin_lf, True)
+			GPIO.output(self.pul_pin_lf, GPIO.HIGH)
 			time.sleep(0.0005)  # 펄스 너비
 			# time.sleep(1)
 			# GPIO.output(self.pul_pin_lf, GPIO.LOW)
