@@ -49,22 +49,24 @@ class StepMotorControl:
 			GPIO.output(self.dir_pin_rf, GPIO.LOW)
 
 		for i in range(pulses):
-			# GPIO.output(self.pul_pin_lf, GPIO.HIGH)
-			# time.sleep(0.0005)  # 펄스 너비
-			# GPIO.output(self.pul_pin_lf, GPIO.LOW)
-			# time.sleep(0.0005)  # 펄스 간격
 			GPIO.output(self.pul_pin_rf, GPIO.HIGH)
 			time.sleep(0.0005)
 			GPIO.output(self.pul_pin_rf, GPIO.LOW)
 			time.sleep(0.0005)
 
+		for i in range(pulses):
+			GPIO.output(self.pul_pin_lf, GPIO.HIGH)
+			time.sleep(0.0005)  # 펄스 너비
+			GPIO.output(self.pul_pin_lf, GPIO.LOW)
+			time.sleep(0.0005)  # 펄스 간격
+
 	def upward(self, angle):
-		self.update('high', 100)
+		self.update('high', 500)
 		if self.logger:
 			self.logger.info(f'[Step motor] upward with angle {100}')
 
 	def downward(self, angle):
-		self.update('low', 100)
+		self.update('low', 500)
 		if self.logger:
 			self.logger.info(f'[Step motor] downward with angle {100}')
 
