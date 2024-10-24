@@ -78,8 +78,8 @@ class Walker:
             #     self.step_motor.downward(self.tilt)
             self.step_motor.upward(self.tilt)
             time.sleep(1)
-            # self.step_motor.downward(self.tilt)
-            # time.sleep(1)
+            self.step_motor.downward(self.tilt)
+            time.sleep(1)
 
     def _run_brain(self):
         while not self.stop_event.is_set():
