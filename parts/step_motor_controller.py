@@ -5,11 +5,11 @@ import time
 class StepMotorControl:
 	def __init__(self, logger=None):
 		self.logger = logger
-		self.pul_pin_lf = 7
-		self.dir_pin_lf = 11
+		self.pul_pin_lf = 12
+		self.dir_pin_lf = 16
 		self.en_pin_lf = 13
-		self.pul_pin_rf = 15
-		self.dir_pin_rf = 16
+		self.pul_pin_rf = 21
+		self.dir_pin_rf = 23
 		self.en_pin_rf = 18
 
 	def init(self):
