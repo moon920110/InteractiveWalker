@@ -69,8 +69,8 @@ class Walker:
             #     self.dc_motor.turn_left(self.speed)
             # else:
             #     self.dc_motor.go_forward(self.speed)
-            self.dc_motor.go_forward(self.speed)
-            time.sleep(0.2)
+            # self.dc_motor.go_forward(self.speed)
+            # time.sleep(0.2)
             self.dc_motor.go_backward(self.speed)
             time.sleep(0.2)
 
