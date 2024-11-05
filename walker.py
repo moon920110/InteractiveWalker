@@ -11,7 +11,7 @@ from parts.brain import Brain
 
 class Walker:
     def __init__(self):
-        self.speed = 20
+        self.speed = 50
         self.angle = 0
 
         # TODO: IMU
@@ -70,9 +70,9 @@ class Walker:
             # else:
             #     self.dc_motor.go_forward(self.speed)
             self.dc_motor.go_forward(self.speed)
-            time.sleep(0.2)
+            time.sleep(1)
             self.dc_motor.go_backward(self.speed)
-            time.sleep(0.2)
+            time.sleep(1)
 
     def _run_step(self):
         while not self.stop_event.is_set():
