@@ -17,23 +17,23 @@ class DCControl:
 
         self.left_dir_pin = left_dir_pin
         self.left_pwm_pin = left_pwm_pin
-        self.right_dir_pin = right_dir_pin
-        self.right_pwm_pin = right_pwm_pin
+        # self.right_dir_pin = right_dir_pin
+        # self.right_pwm_pin = right_pwm_pin
 
         # Setup GPIO
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.left_dir_pin, GPIO.OUT)
         GPIO.setup(self.left_pwm_pin, GPIO.OUT)
-        GPIO.setup(self.right_dir_pin, GPIO.OUT)
-        GPIO.setup(self.right_pwm_pin, GPIO.OUT)
+        # GPIO.setup(self.right_dir_pin, GPIO.OUT)
+        # GPIO.setup(self.right_pwm_pin, GPIO.OUT)
 
         # Create PWM Instances
         self.pwm_left = GPIO.PWM(self.left_pwm_pin, 1000)
-        self.pwm_right = GPIO.PWM(self.right_pwm_pin, 1000)
+        # self.pwm_right = GPIO.PWM(self.right_pwm_pin, 1000)
 
         # Start PWM with 0% Duty Cycle
         self.pwm_left.start(0)
-        self.pwm_right.start(0)
+        # self.pwm_right.start(0)
 
         if self.logger:
             self.logger.info(f'[DC motor] ACTIVATE left dir pin: {self.left_dir_pin}, left pwm pin: {self.left_pwm_pin}, '
