@@ -13,7 +13,7 @@ class DCControl:
         self.pwm_left = None
         self.pwm_right = None
 
-    def init(self, left_dir_pin=29, left_pwm_pin=31, right_dir_pin=31, right_pwm_pin=33):
+    def init(self, left_dir_pin=29, left_pwm_pin=32, right_dir_pin=31, right_pwm_pin=33):
 
         self.left_dir_pin = left_dir_pin
         self.left_pwm_pin = left_pwm_pin
