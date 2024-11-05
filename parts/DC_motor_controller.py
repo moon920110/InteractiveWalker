@@ -10,40 +10,40 @@ class DCControl:
         self.left_pwm_pin = 32
         self.right_dir_pin = 31
         self.right_pwm_pin = 33
+        self.pwm_left = None
+        self.pwm_right = None
+
+    def init(self, left_dir_pin=29, left_pwm_pin=31, right_dir_pin=31, right_pwm_pin=33):
+
+        self.left_dir_pin = left_dir_pin
+        self.left_pwm_pin = left_pwm_pin
+        self.right_dir_pin = right_dir_pin
+        self.right_pwm_pin = right_pwm_pin
+
+        # Setup GPIO
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.left_dir_pin, GPIO.OUT)
+        GPIO.setup(self.left_pwm_pin, GPIO.OUT)
+        GPIO.setup(self.right_dir_pin, GPIO.OUT)
+        GPIO.setup(self.right_pwm_pin, GPIO.OUT)
+
+        # Create PWM Instances
         self.pwm_left = GPIO.PWM(self.left_pwm_pin, 1000)
         self.pwm_right = GPIO.PWM(self.right_pwm_pin, 1000)
 
-    def init(self, left_dir_pin=29, left_pwm_pin=31, right_dir_pin=31, right_pwm_pin=33):
-        try:
-            self.left_dir_pin = left_dir_pin
-            self.left_pwm_pin = left_pwm_pin
-            self.right_dir_pin = right_dir_pin
-            self.right_pwm_pin = right_pwm_pin
+        # Start PWM with 0% Duty Cycle
+        self.pwm_left.start(0)
+        self.pwm_right.start(0)
 
-            # Setup GPIO
-            GPIO.setmode(GPIO.BOARD)
-            GPIO.setup(self.left_dir_pin, GPIO.OUT)
-            GPIO.setup(self.left_pwm_pin, GPIO.OUT)
-            GPIO.setup(self.right_dir_pin, GPIO.OUT)
-            GPIO.setup(self.right_pwm_pin, GPIO.OUT)
+        if self.logger:
+            self.logger.info(f'[DC motor] ACTIVATE left dir pin: {self.left_dir_pin}, left pwm pin: {self.left_pwm_pin}, '
+                             f'right dir pin: {self.right_dir_pin}, right pwm pin: {self.right_pwm_pin}')
 
-            # Create PWM Instances
-            self.pwm_left = GPIO.PWM(self.left_pwm_pin, 1000)
-            self.pwm_right = GPIO.PWM(self.right_pwm_pin, 1000)
 
-            # Start PWM with 0% Duty Cycle
-            self.pwm_left.start(0)
-            self.pwm_right.start(0)
-
-            if self.logger:
-                self.logger.info(f'[DC motor] ACTIVATE left dir pin: {self.left_dir_pin}, left pwm pin: {self.left_pwm_pin}, '
-                                 f'right dir pin: {self.right_dir_pin}, right pwm pin: {self.right_pwm_pin}')
-            return True
-
-        except Exception as e:
-            if self.logger:
-                self.logger.error(f'[DC motor] init error: {e}')
-            return False
+        # except Exception as e:
+        #     if self.logger:
+        #         self.logger.error(f'[DC motor] init error: {e}')
+        #     return False
 
 
     def go_forward(self, speed):
