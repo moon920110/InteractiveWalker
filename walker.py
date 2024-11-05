@@ -42,7 +42,7 @@ class Walker:
         #     exit(1)
 
     def init(self):
-        dc_check = self.dc_motor.init()
+        # dc_check = self.dc_motor.init()
         step_check = self.step_motor.init()
         brain_check = self.brain.init()
 
