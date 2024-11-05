@@ -69,8 +69,8 @@ class DCControl:
     def update(self, left_direction, left_duty_cycle, right_direction, right_duty_cycle):
         GPIO.output(self.left_dir_pin, GPIO.HIGH if left_direction else GPIO.LOW)
         self.pwm_left.ChangeDutyCycle(left_duty_cycle)
-        GPIO.output(self.right_dir_pin, GPIO.HIGH if right_direction else GPIO.LOW)
-        self.pwm_right.ChangeDutyCycle(right_duty_cycle)
+        # GPIO.output(self.right_dir_pin, GPIO.HIGH if right_direction else GPIO.LOW)
+        # self.pwm_right.ChangeDutyCycle(right_duty_cycle)
 
     def terminate(self):
         self.pwm_left.stop()
