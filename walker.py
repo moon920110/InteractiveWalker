@@ -11,7 +11,7 @@ from parts.brain import Brain
 
 class Walker:
     def __init__(self):
-        self.speed = 1
+        self.speed = 20
         self.angle = 0
 
         # TODO: IMU
@@ -88,7 +88,9 @@ class Walker:
 
     def _run_brain(self):
         while not self.stop_event.is_set():
-            self.angle, self.speed = self.brain.think()
+            # self.angle, self.speed = self.brain.think()
+            #TODO
+            test = 'test'
 
     def run_walker(self):
         imu_thread = threading.Thread(target=self._run_imu)
