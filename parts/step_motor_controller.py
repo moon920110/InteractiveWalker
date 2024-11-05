@@ -70,7 +70,7 @@ class StepMotorControl:
 			self.logger.info(f'[Step motor] upward with angle {100}')
 
 	def downward(self, angle):
-		self.update('low', 10)
+		self.update('low', 500)
 		if self.logger:
 			self.logger.info(f'[Step motor] downward with angle {100}')
 
