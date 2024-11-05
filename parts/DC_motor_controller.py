@@ -6,14 +6,14 @@ import random
 class DCControl:
     def __init__(self, logger=None):
         self.logger = logger
-        self.left_dir_pin = None
-        self.left_pwm_pin = None
-        self.right_dir_pin = None
-        self.right_pwm_pin = None
+        self.left_dir_pin = 29
+        self.left_pwm_pin = 32
+        self.right_dir_pin = 31
+        self.right_pwm_pin = 33
         self.pwm_left = None
         self.pwm_right = None
 
-    def init(self, left_dir_pin=5, left_pwm_pin=6, right_dir_pin=20, right_pwm_pin=16):
+    def init(self, left_dir_pin=29, left_pwm_pin=31, right_dir_pin=31, right_pwm_pin=33):
         try:
             self.left_dir_pin = left_dir_pin
             self.left_pwm_pin = left_pwm_pin
@@ -48,6 +48,11 @@ class DCControl:
 
     def go_forward(self, speed):
         self.update(True, speed, True, speed)
+        if self.logger:
+            self.logger.info(f'[DC motor] go forward with {speed} speed')
+
+    def go_backward(self, speed):
+        self.update(False, speed, False, speed)
         if self.logger:
             self.logger.info(f'[DC motor] go forward with {speed} speed')
 

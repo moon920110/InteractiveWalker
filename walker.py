@@ -29,7 +29,7 @@ class Walker:
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
 
-        # self.dc_motor = DCControl(logger=self.logger)
+        self.dc_motor = DCControl(logger=self.logger)
         self.step_motor = StepMotorControl(logger=self.logger)
         self.brain = Brain(logger=self.logger)
 
@@ -42,7 +42,7 @@ class Walker:
         #     exit(1)
 
     def init(self):
-        # dc_check = self.dc_motor.init()
+        dc_check = self.dc_motor.init()
         step_check = self.step_motor.init()
         brain_check = self.brain.init()
 
@@ -63,12 +63,16 @@ class Walker:
 
     def _run_dc(self):
         while not self.stop_event.is_set():
-            if self.angle > 45:
-                self.dc_motor.turn_right(self.speed)
-            elif self.angle < -45:
-                self.dc_motor.turn_left(self.speed)
-            else:
-                self.dc_motor.go_forward(self.speed)
+            # if self.angle > 45:
+            #     self.dc_motor.turn_right(self.speed)
+            # elif self.angle < -45:
+            #     self.dc_motor.turn_left(self.speed)
+            # else:
+            #     self.dc_motor.go_forward(self.speed)
+            self.dc_motor.go_forward(self.speed)
+            time.sleep(0.2)
+            self.dc_motor.go_backward(self.speed)
+            time.sleep(0.2)
 
     def _run_step(self):
         while not self.stop_event.is_set():
