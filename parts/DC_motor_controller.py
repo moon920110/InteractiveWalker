@@ -54,7 +54,7 @@ class DCControl:
     def go_backward(self, speed):
         self.update(False, speed, False, speed)
         if self.logger:
-            self.logger.info(f'[DC motor] go forward with {speed} speed')
+            self.logger.info(f'[DC motor] go backward with {speed} speed')
 
     def turn_left(self, speed):
         self.update(False, 0, True, speed)
