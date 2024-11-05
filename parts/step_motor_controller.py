@@ -65,7 +65,7 @@ class StepMotorControl:
 		# 	# time.sleep(1)
 
 	def upward(self, angle):
-		self.update('high', 100)
+		self.update('high', 10)
 		if self.logger:
 			self.logger.info(f'[Step motor] upward with angle {100}')
 
