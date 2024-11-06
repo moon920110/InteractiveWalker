@@ -35,9 +35,9 @@ class DCControl:
         self.pwm_left.start(0)
         # self.pwm_right.start(0)
 
-        if self.logger:
-            self.logger.info(f'[DC motor] ACTIVATE left dir pin: {self.left_dir_pin}, left pwm pin: {self.left_pwm_pin}, '
-                             f'right dir pin: {self.right_dir_pin}, right pwm pin: {self.right_pwm_pin}')
+        # if self.logger:
+        #     self.logger.info(f'[DC motor] ACTIVATE left dir pin: {self.left_dir_pin}, left pwm pin: {self.left_pwm_pin}, '
+        #                      f'right dir pin: {self.right_dir_pin}, right pwm pin: {self.right_pwm_pin}')
 
 
         # except Exception as e:
