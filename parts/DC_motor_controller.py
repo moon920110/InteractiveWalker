@@ -28,8 +28,8 @@ class DCControl:
         GPIO.setup(self.right_pwm_pin, GPIO.OUT)
 
         # Create PWM Instances
-        self.pwm_left = GPIO.PWM(self.left_pwm_pin, 1000)
-        self.pwm_right = GPIO.PWM(self.right_pwm_pin, 1000)
+        self.pwm_left = GPIO.PWM(self.left_pwm_pin, 2000)
+        self.pwm_right = GPIO.PWM(self.right_pwm_pin, 2000)
 
         # Start PWM with 0% Duty Cycle
         self.pwm_left.start(0)
