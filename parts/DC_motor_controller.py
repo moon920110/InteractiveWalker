@@ -8,8 +8,8 @@ class DCControl:
         self.logger = logger
         self.left_dir_pin = 29
         self.left_pwm_pin = 32
-        # self.right_dir_pin = 31
-        # self.right_pwm_pin = 33
+        self.right_dir_pin = 31
+        self.right_pwm_pin = 33
         self.pwm_left = None
         self.pwm_right = None
 
@@ -17,27 +17,27 @@ class DCControl:
 
         self.left_dir_pin = left_dir_pin
         self.left_pwm_pin = left_pwm_pin
-        # self.right_dir_pin = right_dir_pin
-        # self.right_pwm_pin = right_pwm_pin
+        self.right_dir_pin = right_dir_pin
+        self.right_pwm_pin = right_pwm_pin
 
         # Setup GPIO
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.left_dir_pin, GPIO.OUT)
         GPIO.setup(self.left_pwm_pin, GPIO.OUT)
-        # GPIO.setup(self.right_dir_pin, GPIO.OUT)
-        # GPIO.setup(self.right_pwm_pin, GPIO.OUT)
+        GPIO.setup(self.right_dir_pin, GPIO.OUT)
+        GPIO.setup(self.right_pwm_pin, GPIO.OUT)
 
         # Create PWM Instances
         self.pwm_left = GPIO.PWM(self.left_pwm_pin, 1000)
-        # self.pwm_right = GPIO.PWM(self.right_pwm_pin, 1000)
+        self.pwm_right = GPIO.PWM(self.right_pwm_pin, 1000)
 
         # Start PWM with 0% Duty Cycle
         self.pwm_left.start(0)
-        # self.pwm_right.start(0)
+        self.pwm_right.start(0)
 
-        # if self.logger:
-        #     self.logger.info(f'[DC motor] ACTIVATE left dir pin: {self.left_dir_pin}, left pwm pin: {self.left_pwm_pin}, '
-        #                      f'right dir pin: {self.right_dir_pin}, right pwm pin: {self.right_pwm_pin}')
+        if self.logger:
+            self.logger.info(f'[DC motor] ACTIVATE left dir pin: {self.left_dir_pin}, left pwm pin: {self.left_pwm_pin}, '
+                             f'right dir pin: {self.right_dir_pin}, right pwm pin: {self.right_pwm_pin}')
 
 
         # except Exception as e:
@@ -67,8 +67,8 @@ class DCControl:
             self.logger.info(f'[DC motor] turn right with {speed} speed')
 
     def update(self, left_direction, left_duty_cycle, right_direction, right_duty_cycle):
-        # GPIO.output(self.right_dir_pin, GPIO.HIGH if right_direction else GPIO.LOW)
-        # self.pwm_right.ChangeDutyCycle(right_duty_cycle)
+        GPIO.output(self.right_dir_pin, GPIO.HIGH if right_direction else GPIO.LOW)
+        self.pwm_right.ChangeDutyCycle(right_duty_cycle)
         GPIO.output(self.left_dir_pin, GPIO.HIGH if left_direction else GPIO.LOW)
         self.pwm_left.ChangeDutyCycle(left_duty_cycle)
 
@@ -79,8 +79,8 @@ class DCControl:
 
         GPIO.cleanup(self.left_dir_pin)
         GPIO.cleanup(self.left_pwm_pin)
-        # GPIO.cleanup(self.right_dir_pin)
-        # GPIO.cleanup(self.right_pwm_pin)
+        GPIO.cleanup(self.right_dir_pin)
+        GPIO.cleanup(self.right_pwm_pin)
         if self.logger:
             self.logger.info(f'[DC motor] terminate DC motor')
 
