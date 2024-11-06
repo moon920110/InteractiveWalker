@@ -86,18 +86,19 @@ class DCControl:
 
 
 if __name__ == '__main__':
-    dc_controller = DCControl()
-    for _ in range(10000):
-        # Generate random direction and duty cycle
-        left_dir = random.choice([True, False])
-        right_dir = random.choice([True, False])
-        left_duty = random.uniform(0, 100)
-        right_duty = random.uniform(0, 100)
-
-        # Update motors with random values
-        dc_controller.update_motor_control(left_dir, left_duty, right_dir, right_duty)
-
-        # Wait for a bit before changing again
-        time.sleep(random.uniform(0.5, 5))  # Random delay between 0.5 to 5 seconds
-
-    dc_controller.terminate()
+    print('hi')
+    # dc_controller = DCControl()
+    # for _ in range(10000):
+    #     # Generate random direction and duty cycle
+    #     left_dir = random.choice([True, False])
+    #     right_dir = random.choice([True, False])
+    #     left_duty = random.uniform(0, 100)
+    #     right_duty = random.uniform(0, 100)
+    #
+    #     # Update motors with random values
+    #     dc_controller.update_motor_control(left_dir, left_duty, right_dir, right_duty)
+    #
+    #     # Wait for a bit before changing again
+    #     time.sleep(random.uniform(0.5, 5))  # Random delay between 0.5 to 5 seconds
+    #
+    # dc_controller.terminate()
