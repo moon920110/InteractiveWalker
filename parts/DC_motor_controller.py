@@ -6,8 +6,8 @@ import random
 class DCControl:
     def __init__(self, logger=None):
         self.logger = logger
-        self.left_dir_pin = 15
-        self.left_pwm_pin = 32
+        self.left_dir_pin = 29
+        self.left_pwm_pin = 15
         self.right_dir_pin = 31
         self.right_pwm_pin = 33
         self.pwm_left = None
