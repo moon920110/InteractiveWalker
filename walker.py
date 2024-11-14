@@ -11,7 +11,7 @@ from parts.brain import Brain
 
 class Walker:
     def __init__(self):
-        self.speed = 50
+        self.speed = 150
         self.angle = 0
 
         # TODO: IMU
