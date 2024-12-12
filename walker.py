@@ -42,7 +42,7 @@ class Walker:
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
             arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
-            print(self.angle, self.speed, 'write')
+            # print(self.angle, self.speed, 'write')
             time.sleep(0.1)
             # self.temp = arduino.readline().decode('utf-8')
             # print(self.temp)
