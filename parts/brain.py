@@ -58,6 +58,7 @@ class Brain:
 			self.base_image = np.mean(base_images, axis=0)
 			# temp = (self.base_image[21:,:]/100).astype(np.uint8).reshape(1, 11, 32)
 			# temp = cv2.adaptiveThreshold(temp, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 3, 0)
+			print(np.array(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]).shape))
 			temp = np.array(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]).reshape(11, 32, 3), dtype='uint8')
 			temp[temp <= 30] = 0
 			temp = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
