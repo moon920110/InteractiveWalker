@@ -56,10 +56,7 @@ class Brain:
 				self.base_images.append(total_image[-1])
 			base_images = np.array(self.base_images[:-30])
 			self.base_image = np.mean(base_images, axis=0)
-			# temp = (self.base_image[21:,:]/100).astype(np.uint8).reshape(1, 11, 32)
-			# temp = cv2.adaptiveThreshold(temp, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 3, 0)
-			print(np.transpose(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]), (1, 2, 0)).shape)
-			temp = np.array(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]).reshape(11, 32, 3), dtype='uint8')
+			temp = np.array(np.transpose(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]), (1, 2, 0)), dtype='uint8')
 			temp[temp <= 30] = 0
 			temp = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
 			right_arm_cnts, _ = cv2.findContours(temp, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
