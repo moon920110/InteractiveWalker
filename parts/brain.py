@@ -72,14 +72,20 @@ class Brain:
 			self.right_arm_y_range = h
 
 		images = self.sensor.get()
-		image = images[-1] - self.base_image
+		image = np.clip(images[-1] - self.base_image, 0, 1500)
 		image /= 1500
 		x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
 		x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
 		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
-				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx])
-		leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) - np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end])
-		print(forback, leftright)
+				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx]) # + forward
+		leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) - np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end])  # + right
+
+		if np.mean(image[21:, :][:, :7]) >= 0.1:
+			STS = True
+		else:
+			STS = False
+
+		# print(forback, leftright)
 		# visual_image = copy.deepcopy(images[-1]) * 255
 		# visual_image = np.clip(visual_image, 0, 255)
 		# visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
@@ -88,8 +94,8 @@ class Brain:
 		# if cv2.waitKey(1) & 0xff == 27:
 		# 	break
 		# _, angle, speed = self.model(images, hmd_yaw=0)
-		angle = 0
-		speed = 0
+		# angle = 0
+		# speed = 0
 
 		visual_image = images[-1]
 		# print(visual_image)
@@ -105,7 +111,7 @@ class Brain:
 		# if self.logger:
 		# 	self.logger.info(f"[Brain] sensor FPS:{sensor_fps}, main FPS: {main_fps}, Angle:{angle}, Speed:{speed}")
 
-		return angle, speed
+		return forback, leftright, STS
 
 	def terminate(self):
 		self.sensor.close()

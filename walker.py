@@ -9,8 +9,10 @@ from parts.brain import Brain
 
 class Walker:
     def __init__(self):
-        self.speed = 50
-        self.angle = 0
+        self.forback = 0
+        self.leftright = 0
+        self.STS = False
+        self.isStand = True
 
         # TODO: IMU
         self.tilt = -50
@@ -41,18 +43,42 @@ class Walker:
     def _run_imu(self):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
-            # print(self.angle, self.speed, 'write')
-            time.sleep(0.1)
-            # self.temp = arduino.readline().decode('utf-8')
-            # print(self.temp)
+            if self.STS:
+                if self.isStand:
+                    command = 'down'
+                else:
+                    command = 'up'
+                arduino.write(command.encode('utf-8'))
+                time.sleep(0.05)
+            else:
+                command = 'S1 ' + str(int(1000 * self.forback)) + ',S2 ' + str(int(1000 * self.forback)) + ",D1 0,D2 0"
+                # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
+                arduino.write(command.encode('utf-8'))
+                # print(self.angle, self.speed, 'write')
+                time.sleep(0.05)
+                # self.temp = arduino.readline().decode('utf-8')
+                # print(self.temp)
         pass
 
     def _run_brain(self):
         while not self.stop_event.is_set():
-            self.angle, self.speed = self.brain.think()
-            #TODO
-            test = 'test'
+            self.forback, self.leftright, self.STS = self.brain.think()
+            if self.leftright <= -0.15 or self.leftright >= 0.15:
+                self.forback = 0
+            if self.leftright >= -0.05 and self.leftright <= 0.05:
+                self.leftright = 0
+            if self.forback >= -0.05 and self.forback <= 0.05:
+                self.forback = 0
+
+        if self.forback != 0 and self.leftright != 0:
+            self.STS = False
+            self.isStand = True
+        if self.STS == True and self.isStand == True:
+            self.isStand = False
+            time.sleep(10)
+        if self.STS == True and self.isStand == False:
+            self.isStand = True
+            time.sleep(10)
 
     def run_walker(self):
         imu_thread = threading.Thread(target=self._run_imu)
