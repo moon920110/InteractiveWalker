@@ -80,8 +80,8 @@ class Brain:
 		main_fps = round(self.fps_monitor.getFps())
 		sensor_fps = self.sensor.fps
 
-		if self.logger:
-			self.logger.info(f"[Brain] sensor FPS:{sensor_fps}, main FPS: {main_fps}, Angle:{angle}, Speed:{speed}")
+		# if self.logger:
+		# 	self.logger.info(f"[Brain] sensor FPS:{sensor_fps}, main FPS: {main_fps}, Angle:{angle}, Speed:{speed}")
 
 		return angle, speed
 
