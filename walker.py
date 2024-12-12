@@ -13,6 +13,7 @@ class Walker:
         self.leftright = 0
         self.STS = False
         self.isStand = True
+        self.STS_flag = False
 
         # TODO: IMU
         self.tilt = -50
@@ -43,7 +44,7 @@ class Walker:
     def _run_imu(self):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            if self.STS:
+            if self.STS_flag:
                 if self.isStand:
                     command = 'down'
                 else:
@@ -76,11 +77,17 @@ class Walker:
                 self.STS = False
                 self.isStand = True
             if self.STS == True and self.isStand == True:
+                self.STS_flag = True
                 self.isStand = False
                 time.sleep(10)
+                self.STS_flag = False
+                continue
             if self.STS == True and self.isStand == False:
+                self.STS_flag = True
                 self.isStand = True
                 time.sleep(10)
+                self.STS_flag = False
+                continue
 
     def run_walker(self):
         imu_thread = threading.Thread(target=self._run_imu)
