@@ -39,31 +39,33 @@ class Walker:
 
 
     def _run_imu(self):
-
+        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+        while not self.stop_event.is_set():
+            arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
+            print(self.angle, self.speed, 'write')
+            time.sleep(0.1)
             # self.temp = arduino.readline().decode('utf-8')
             # print(self.temp)
         pass
 
     def _run_brain(self):
-        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            # arduino.write('7'.encode('utf-8'))
             self.angle, self.speed = self.brain.think()
             #TODO
             test = 'test'
 
     def run_walker(self):
-        # imu_thread = threading.Thread(target=self._run_imu)
+        imu_thread = threading.Thread(target=self._run_imu)
         brain_thread = threading.Thread(target=self._run_brain)
 
         try:
-            # imu_thread.start()
-            # self.logger.info(f'[Walker] imu thread start')
+            imu_thread.start()
+            self.logger.info(f'[Walker] imu thread start')
             brain_thread.start()
             self.logger.info(f'[Walker] Brain thread start')
 
 
-            # imu_thread.join()
+            imu_thread.join()
             brain_thread.join()
 
         except KeyboardInterrupt:
