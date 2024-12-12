@@ -47,7 +47,7 @@ class Walker:
     def _run_brain(self):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            arduino.write('7'.encode('utf-8'))
+            # arduino.write('7'.encode('utf-8'))
             self.angle, self.speed = self.brain.think()
             #TODO
             test = 'test'
