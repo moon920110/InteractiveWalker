@@ -72,11 +72,11 @@ class Brain:
 			self.right_arm_y_range = h
 
 		images = self.sensor.get()
-		images = images - self.base_image
-		images /= 1500
-		print(images[21:, :])
-		forback = np.mean(images[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
-				  np.mean(images[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx])
+		image = images[-1] - self.base_image
+		image /= 1500
+		print(image[21:, :])
+		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
+				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx])
 		print(forback)
 		# visual_image = copy.deepcopy(images[-1]) * 255
 		# visual_image = np.clip(visual_image, 0, 255)
