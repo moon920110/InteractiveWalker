@@ -51,7 +51,7 @@ class Brain:
 			start_signal = 0
 			for i in range(20):
 				total_image = self.sensor.get()
-				self.base_images.append(total_image)
+				self.base_images.append(total_image[-1])
 			base_images = np.array(self.base_images)
 			self.base_image = np.mean(base_images, axis=0)
 
