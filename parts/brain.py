@@ -54,7 +54,7 @@ class Brain:
 				self.base_images.append(total_image[-1])
 			base_images = np.array(self.base_images[:-30])
 			self.base_image = np.mean(base_images, axis=0)
-			_, right_arm_cnts, _ = cv2.findContours(self.base_image[22:,:].astype(np.int), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+			_, right_arm_cnts, _ = cv2.findContours(self.base_image[22:,:].astype(np.uint16), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 			sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
 			M = cv2.moments(sorted_right_arm_cnts)
 			right_arm_cx = int(M['m10'] / M['m00'])
