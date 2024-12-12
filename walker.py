@@ -48,6 +48,7 @@ class Walker:
                     command = 'down'
                 else:
                     command = 'up'
+                print(command)
                 arduino.write(command.encode('utf-8'))
                 time.sleep(10)
             else:
