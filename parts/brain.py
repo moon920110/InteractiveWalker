@@ -46,7 +46,7 @@ class Brain:
 		speed = 0
 
 		visual_image = images[-1]
-		print(visual_image)
+		# print(visual_image)
 		if hasattr(self.model, "visualized_image"):
 			visual_image = self.model.visualized_image
 		# if not visualize(visual_image):
