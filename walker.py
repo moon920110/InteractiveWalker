@@ -46,12 +46,10 @@ class Walker:
             if self.STS:
                 if self.isStand:
                     command = 'down'
-                    time.sleep(10)
                 else:
                     command = 'up'
-                    time.sleep(10)
                 arduino.write(command.encode('utf-8'))
-                time.sleep(0.05)
+                time.sleep(10)
             else:
                 command = 'S1 ' + str(int(1000 * self.forback)) + ',S2 ' + str(int(1000 * self.forback)) + ",D1 0,D2 0"
                 # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
