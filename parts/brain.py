@@ -18,6 +18,8 @@ class Brain:
 		self.base_image = None
 		self.right_arm_cy = None
 		self.right_arm_cx = None
+		self.right_arm_x_range = None
+		self.right_arm_y_range = None
 
 	def init(self, ports=["/dev/ttyUSB0"]):
 		try:
@@ -66,17 +68,20 @@ class Brain:
 			M = cv2.moments(sorted_right_arm_cnts[0])
 			self.right_arm_cx = int(M['m10'] / M['m00'])
 			self.right_arm_cy = int(M['m01'] / M['m00'])
+			self.right_arm_x_range = w
+			self.right_arm_y_range = h
 
-		print(self.right_arm_cy, self.right_arm_cx)
-		# print(self.start_signal)
 		images = self.sensor.get()
 		images = images - self.base_image
 		images /= 1500
-		visual_image = copy.deepcopy(images[-1]) * 255
-		visual_image = np.clip(visual_image, 0, 255)
-		visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
+		forback = np.mean(images[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
+				  np.mean(images[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx])
+		print(forback)
+		# visual_image = copy.deepcopy(images[-1]) * 255
+		# visual_image = np.clip(visual_image, 0, 255)
+		# visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
 
-		cv2.imshow("Pressure", visual_image)
+		# cv2.imshow("Pressure", visual_image)
 		# if cv2.waitKey(1) & 0xff == 27:
 		# 	break
 		# _, angle, speed = self.model(images, hmd_yaw=0)
