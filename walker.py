@@ -53,17 +53,17 @@ class Walker:
             test = 'test'
 
     def run_walker(self):
-        imu_thread = threading.Thread(target=self._run_imu)
+        # imu_thread = threading.Thread(target=self._run_imu)
         brain_thread = threading.Thread(target=self._run_brain)
 
         try:
-            imu_thread.start()
-            self.logger.info(f'[Walker] imu thread start')
+            # imu_thread.start()
+            # self.logger.info(f'[Walker] imu thread start')
             brain_thread.start()
             self.logger.info(f'[Walker] Brain thread start')
 
 
-            imu_thread.join()
+            # imu_thread.join()
             brain_thread.join()
 
         except KeyboardInterrupt:
