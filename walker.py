@@ -14,6 +14,7 @@ class Walker:
         self.STS = False
         self.isStand = True
         self.STS_flag = False
+        self.leftright_flag = False
 
         # TODO: IMU
         self.tilt = -50
@@ -52,6 +53,13 @@ class Walker:
                 print(command)
                 arduino.write(command.encode('utf-8'))
                 time.sleep(10)
+            elif self.leftright_flag:
+                if self.leftright > 0:
+                    command = 'S1 ' + str(int(1000 * self.leftright)) + ',S2 ' + str(int(1000 * self.leftright)) + ",D1 1,D2 0"
+                else:
+                    command = 'S1 ' + str(int(1000 * (-self.leftright))) + ',S2 ' + str(int(1000 * (-self.leftright))) + ",D1 0,D2 1"
+                arduino.write(command.encode('utf-8'))
+                time.sleep(0.05)
             else:
                 command = 'S1 ' + str(int(1000 * self.forback)) + ',S2 ' + str(int(1000 * self.forback)) + ",D1 0,D2 0"
                 # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
@@ -68,9 +76,12 @@ class Walker:
             self.forback, self.leftright, self.STS = self.brain.think()
             if self.leftright <= -0.15 or self.leftright >= 0.15:
                 self.forback = 0
-            if self.leftright >= -0.05 and self.leftright <= 0.05:
+                self.leftright_flag = True
+            else:
+                self.leftright_flag = False
+            if self.leftright >= -0.03 and self.leftright <= 0.03:
                 self.leftright = 0
-            if self.forback >= -0.05 and self.forback <= 0.05:
+            if self.forback >= -0.03 and self.forback <= 0.03:
                 self.forback = 0
 
             if self.forback != 0 and self.leftright != 0:
