@@ -16,6 +16,8 @@ class Brain:
 		self.base_images = []
 		self.start_signal = 1
 		self.base_image = None
+		self.right_arm_cy = None
+		self.right_arm_cx = None
 
 	def init(self, ports=["/dev/ttyUSB0"]):
 		try:
@@ -61,10 +63,10 @@ class Brain:
 			right_arm_cnts, _ = cv2.findContours(temp2, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 			sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
 			M = cv2.moments(sorted_right_arm_cnts[0])
-			right_arm_cx = int(M['m10'] / M['m00'])
-			right_arm_cy = int(M['m01'] / M['m00'])
+			self.right_arm_cx = int(M['m10'] / M['m00'])
+			self.right_arm_cy = int(M['m01'] / M['m00'])
 
-		print(right_arm_cy, right_arm_cx)
+		print(self.right_arm_cy, self.right_arm_cx)
 		print(self.start_signal)
 		images = self.sensor.get()
 		images = images - self.base_image
