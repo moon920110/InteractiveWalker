@@ -72,18 +72,15 @@ class Walker:
             if self.forback >= -0.05 and self.forback <= 0.05:
                 self.forback = 0
 
-        if self.forback != 0 and self.leftright != 0:
-            print('here1')
-            self.STS = False
-            self.isStand = True
-        if self.STS == True and self.isStand == True:
-            self.isStand = False
-            print('here2')
-            time.sleep(10)
-        if self.STS == True and self.isStand == False:
-            print('here3')
-            self.isStand = True
-            time.sleep(10)
+            if self.forback != 0 and self.leftright != 0:
+                self.STS = False
+                self.isStand = True
+            if self.STS == True and self.isStand == True:
+                self.isStand = False
+                time.sleep(10)
+            if self.STS == True and self.isStand == False:
+                self.isStand = True
+                time.sleep(10)
 
     def run_walker(self):
         imu_thread = threading.Thread(target=self._run_imu)
