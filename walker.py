@@ -78,6 +78,7 @@ class Walker:
             self.isStand = True
         if self.STS == True and self.isStand == True:
             self.isStand = False
+            print('here')
             time.sleep(10)
         if self.STS == True and self.isStand == False:
             self.isStand = True
