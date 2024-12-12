@@ -49,11 +49,18 @@ class Brain:
 	def think(self):
 		if self.start_signal == 1:
 			self.start_signal = 0
-			for i in range(20):
+			for i in range(200):
 				total_image = self.sensor.get()
 				self.base_images.append(total_image[-1])
-			base_images = np.array(self.base_images)
+			base_images = np.array(self.base_images[:-30])
 			self.base_image = np.mean(base_images, axis=0)
+			_, right_arm_cnts, _ = cv2.findContours(self.base_image[22:,:], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+			sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
+			M = cv2.moments(sorted_right_arm_cnts)
+			right_arm_cx = int(M['m10'] / M['m00'])
+			right_arm_cy = int(M['m01'] / M['m00'])
+
+		print(right_arm_cy, right_arm_cx)
 		print(self.start_signal)
 		images = self.sensor.get()
 		images = images - self.base_image
