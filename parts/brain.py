@@ -73,7 +73,7 @@ class Brain:
 		# print(visual_image)
 		# if hasattr(self.model, "visualized_image"):
 		# 	print('hi')
-			visual_image = self.model.visualized_image
+		# 	visual_image = self.model.visualized_image
 		# if not visualize(visual_image):
 		# 	return
 
