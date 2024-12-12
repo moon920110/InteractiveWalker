@@ -74,9 +74,12 @@ class Brain:
 		images = self.sensor.get()
 		image = images[-1] - self.base_image
 		image /= 1500
+		x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
+		x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
 		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
 				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx])
-		print(forback)
+		leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) - np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end])
+		print(forback, leftright)
 		# visual_image = copy.deepcopy(images[-1]) * 255
 		# visual_image = np.clip(visual_image, 0, 255)
 		# visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
