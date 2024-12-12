@@ -60,7 +60,7 @@ class Brain:
 			temp2 = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
 			right_arm_cnts, _ = cv2.findContours(temp2, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 			sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
-			M = cv2.moments(sorted_right_arm_cnts)
+			M = cv2.moments(sorted_right_arm_cnts[0])
 			right_arm_cx = int(M['m10'] / M['m00'])
 			right_arm_cy = int(M['m01'] / M['m00'])
 
