@@ -46,8 +46,10 @@ class Walker:
             if self.STS:
                 if self.isStand:
                     command = 'down'
+                    time.sleep(10)
                 else:
                     command = 'up'
+                    time.sleep(10)
                 arduino.write(command.encode('utf-8'))
                 time.sleep(0.05)
             else:
@@ -58,6 +60,7 @@ class Walker:
                 time.sleep(0.05)
                 # self.temp = arduino.readline().decode('utf-8')
                 # print(self.temp)
+            print(command)
         pass
 
     def _run_brain(self):
