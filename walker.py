@@ -78,15 +78,15 @@ class Walker:
                 self.isStand = True
             if self.STS == True and self.isStand == True:
                 self.STS_flag = True
-                self.isStand = False
                 time.sleep(10)
                 self.STS_flag = False
+                self.isStand = False
                 continue
             if self.STS == True and self.isStand == False:
                 self.STS_flag = True
-                self.isStand = True
                 time.sleep(10)
                 self.STS_flag = False
+                self.isStand = True
                 continue
 
     def run_walker(self):
