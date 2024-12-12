@@ -79,7 +79,7 @@ class Brain:
 		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
 				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx]) # + forward
 		leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) - np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end])  # + right
-		print(np.mean(image[21:, :][:, :7]) >= 0.1)
+		print(np.mean(image[21:, :][:, :7]))
 		if np.mean(image[21:, :][:, :7]) >= 0.1:
 			STS = True
 		else:
