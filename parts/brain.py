@@ -74,7 +74,6 @@ class Brain:
 		images = self.sensor.get()
 		image = images[-1] - self.base_image
 		image /= 1500
-		print(image[21:, :])
 		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
 				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx])
 		print(forback)
