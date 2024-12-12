@@ -17,7 +17,6 @@ class Brain:
 		self.start_signal = 1
 		self.base_image = None
 
-
 	def init(self, ports=["/dev/ttyUSB0"]):
 		try:
 			self.model = isaac_model(visualize=True)
@@ -40,12 +39,6 @@ class Brain:
 				self.logger.error(f"[Brain] sensor init error: {e}")
 			return False
 
-		for i in range(20):
-			total_image = self.sensor.get()
-			self.base_images.append(total_image[-1])
-		base_images = np.array(self.base_images)
-		self.base_image = np.mean(base_images, axis=0)
-
 	def test_sensor(self):
 		while True:
 			images = self.sensor.get()
@@ -54,7 +47,14 @@ class Brain:
 			print(f"sensor FPS : {self.sensor.fps}")
 
 	def think(self):
-
+		if self.start_signal == 1:
+			start_signal = 0
+			for i in range(20):
+				total_image = self.sensor.get()
+				self.base_images.append(total_image[-1])
+			base_images = np.array(self.base_images)
+			self.base_image = np.mean(base_images, axis=0)
+		print(self.start_signal)
 		images = self.sensor.get()
 		images = images - self.base_image
 		images /= 1500
