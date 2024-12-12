@@ -73,13 +73,15 @@ class Walker:
                 self.forback = 0
 
         if self.forback != 0 and self.leftright != 0:
+            print('here1')
             self.STS = False
             self.isStand = True
         if self.STS == True and self.isStand == True:
             self.isStand = False
-            print('here')
+            print('here2')
             time.sleep(10)
         if self.STS == True and self.isStand == False:
+            print('here3')
             self.isStand = True
             time.sleep(10)
 
