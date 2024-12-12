@@ -48,6 +48,7 @@ class Brain:
 		visual_image = images[-1]
 		# print(visual_image)
 		if hasattr(self.model, "visualized_image"):
+			print('hi')
 			visual_image = self.model.visualized_image
 		# if not visualize(visual_image):
 		# 	return
