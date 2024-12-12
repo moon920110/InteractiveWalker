@@ -48,7 +48,7 @@ class Brain:
 
 	def think(self):
 		if self.start_signal == 1:
-			start_signal = 0
+			self.start_signal = 0
 			for i in range(20):
 				total_image = self.sensor.get()
 				self.base_images.append(total_image[-1])
