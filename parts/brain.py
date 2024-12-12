@@ -59,6 +59,7 @@ class Brain:
 			# temp = (self.base_image[21:,:]/100).astype(np.uint8).reshape(1, 11, 32)
 			# temp = cv2.adaptiveThreshold(temp, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 3, 0)
 			temp = np.array(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]).reshape(11, 32, 3), dtype='uint8')
+			print(temp)
 			temp2 = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
 			right_arm_cnts, _ = cv2.findContours(temp2, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 			sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
@@ -67,7 +68,7 @@ class Brain:
 			self.right_arm_cy = int(M['m01'] / M['m00'])
 
 		print(self.right_arm_cy, self.right_arm_cx)
-		print(self.start_signal)
+		# print(self.start_signal)
 		images = self.sensor.get()
 		images = images - self.base_image
 		images /= 1500
