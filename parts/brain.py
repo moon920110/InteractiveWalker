@@ -1,7 +1,11 @@
+import copy
+
 from tactile_collecting.sensors.sensors import SensorEnv
 from tactile_collecting.model.VisionModel_isaac import FootDetector as isaac_model
 from tactile_collecting.sensors.app.FramerateMonitor import FramerateMonitor
 from utils.utils import visualize
+import numpy as np
+import cv2 as cv2
 
 class Brain:
 	def __init__(self, logger=None):
@@ -9,6 +13,9 @@ class Brain:
 		self.fps_monitor = None
 		self.sensor = None
 		self.logger = logger
+		self.base_images = []
+		self.start_signal = 1
+		self.base_image = None
 
 	def init(self, ports=["/dev/ttyUSB0"]):
 		try:
@@ -40,15 +47,32 @@ class Brain:
 			print(f"sensor FPS : {self.sensor.fps}")
 
 	def think(self):
+		if self.start_signal == 1:
+			start_signal = 0
+			for i in range(20):
+				total_image = self.sensor.get()
+				self.base_images.append(total_image)
+			base_images = np.array(self.base_images)
+			self.base_image = np.mean(base_images, axis=0)
+
 		images = self.sensor.get()
+		images = images - self.base_image
+		images /= 1500
+		visual_image = copy.deepcopy(images[-1]) * 255
+		visual_image = np.clip(visual_image, 0, 255)
+		visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
+
+		cv2.imshow("Pressure", visual_image)
+		if cv2.waitKey(1) & 0xff == 27:
+			break
 		# _, angle, speed = self.model(images, hmd_yaw=0)
 		angle = 0
 		speed = 0
 
 		visual_image = images[-1]
 		# print(visual_image)
-		if hasattr(self.model, "visualized_image"):
-			print('hi')
+		# if hasattr(self.model, "visualized_image"):
+		# 	print('hi')
 			visual_image = self.model.visualized_image
 		# if not visualize(visual_image):
 		# 	return
