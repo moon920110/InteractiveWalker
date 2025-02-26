@@ -55,13 +55,13 @@ class Walker:
                 time.sleep(10)
             elif self.leftright_flag:
                 if self.leftright > 0:
-                    command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1"
+                    command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
                 else:
-                    command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0"
+                    command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
                 arduino.write(command.encode('utf-8'))
                 time.sleep(0.05)
             else:
-                command = 'S1 ' + str(int(1000 * self.forback)) + ',S2 ' + str(int(1000 * self.forback)) + ",D1 0,D2 0"
+                command = 'S1 ' + str(int(1000 * self.forback)) + ',S2 ' + str(int(1000 * self.forback)) + ",D1 0,D2 0,"
                 # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
                 arduino.write(command.encode('utf-8'))
                 # print(self.angle, self.speed, 'write')
