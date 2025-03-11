@@ -48,6 +48,7 @@ class Walker:
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
             if keyQueue.empty:
+                print('empty')
                 pass
             else: print('key: ', keyQueue)
 
