@@ -49,7 +49,7 @@ class Walker:
         while not self.stop_event.is_set():
             if keyQueue.empty:
                 pass
-            else: print(keyQueue)
+            else: print('key: ', keyQueue)
 
             if self.STS_flag:
                 if self.isStand:
