@@ -50,8 +50,9 @@ class Walker:
             # if keyQueue.empty:
             #     pass
             # else:
-            command = keyQueue.get()
-            print('key: ', command)
+            if not keyQueue.empty:
+                keyInput = keyQueue.get()
+                print('key: ', keyInput)
 
             if self.STS_flag:
                 if self.isStand:
@@ -110,7 +111,7 @@ class Walker:
 
     def _run_keyinput(self, keyQueue):
         while not self.stop_event.is_set():
-            key = input('key =')
+            key = input()
             keyQueue.put(key)
 
     def run_walker(self):
