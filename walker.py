@@ -16,6 +16,7 @@ class Walker:
         self.STS = False
         self.isStand = True
         self.STS_flag = False
+        self.key_flag = False
         self.leftright_flag = False
 
         # TODO: IMU
@@ -52,6 +53,7 @@ class Walker:
             # else:
             keyInput = keyQueue.get()
             if keyInput != '':
+                self.key_flag = True
                 print('key: ', keyInput)
 
             if self.STS_flag:
@@ -67,6 +69,11 @@ class Walker:
                     command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
                 else:
                     command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
+                arduino.write(command.encode('utf-8'))
+                time.sleep(0.1)
+            elif self.key_flag:
+                self.key_flag = False
+                command = keyInput
                 arduino.write(command.encode('utf-8'))
                 time.sleep(0.1)
             else:
