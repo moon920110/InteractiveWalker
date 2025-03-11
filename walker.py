@@ -50,8 +50,8 @@ class Walker:
             # if keyQueue.empty:
             #     pass
             # else:
-            if not keyQueue.empty:
-                keyInput = keyQueue.get()
+            keyInput = keyQueue.get()
+            if keyInput != '':
                 print('key: ', keyInput)
 
             if self.STS_flag:
