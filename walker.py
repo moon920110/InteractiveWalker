@@ -3,6 +3,8 @@ import logging
 import threading
 import serial
 import time
+from getkey import getkey
+import queue
 
 from parts.brain import Brain
 
@@ -42,9 +44,13 @@ class Walker:
 
 
 
-    def _run_imu(self):
+    def _run_imu(self, keyQueue):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
+            if keyQueue.Empty:
+                pass
+            else: print(keyQueue)
+
             if self.STS_flag:
                 if self.isStand:
                     command = 'down'
@@ -100,19 +106,29 @@ class Walker:
                 self.isStand = True
                 continue
 
+    def _run_keyinput(self, keyQueue):
+        while not self.stop_event.is_set():
+            key = getkey()
+            keyQueue.put(key)
+
     def run_walker(self):
-        imu_thread = threading.Thread(target=self._run_imu)
+        keyQueue = queue.Queue()
+        imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue,))
         brain_thread = threading.Thread(target=self._run_brain)
+        keyinput_thread = threading.Thread(target=self._run_keyinput, args=(keyQueue,))
 
         try:
             imu_thread.start()
             self.logger.info(f'[Walker] imu thread start')
             brain_thread.start()
             self.logger.info(f'[Walker] Brain thread start')
+            keyinput_thread.start()
+            self.logger.info(f'[Walker] KeyInput thread start')
 
 
             imu_thread.join()
             brain_thread.join()
+            keyinput_thread.join()
 
         except KeyboardInterrupt:
             self.logger.error("[Walker] KeyboardInterrupt")
