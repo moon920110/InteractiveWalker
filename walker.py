@@ -109,7 +109,7 @@ class Walker:
 
     def _run_keyinput(self, keyQueue):
         while not self.stop_event.is_set():
-            key = input()
+            key = input('key =')
             keyQueue.put(key)
 
     def run_walker(self):
