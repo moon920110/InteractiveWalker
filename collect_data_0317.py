@@ -76,7 +76,7 @@ def main(
         print(imu)
 
         #store data
-        storage.addFrame(ts, {'pressure': total_image}, {'imu': imu})
+        storage.addFrame(ts, {'pressure': total_image, 'imu': imu})
 
         #verbose
         print(f"FPS : {fps}, time: {time()}, Frames : {storage.frameCount}, Storage : {foldername}/{storage.getName()}")
