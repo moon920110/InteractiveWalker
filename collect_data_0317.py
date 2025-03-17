@@ -5,6 +5,7 @@ from tactile_collecting.sensors.app.AppContext import AppContext
 from tactile_collecting.sensors.common.dataset_tools import *
 import numpy as np
 from time import time, sleep
+import serial
 
 
 def main(
@@ -25,6 +26,7 @@ def main(
     start_signal = 1
     base_time = time()
     print('calibration done! collection strat at ', base_time)
+    arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
 
     while storage.frameCount < max_frame:
 
@@ -69,8 +71,11 @@ def main(
         #unix timestep
         ts = getUnixTimestamp()
 
+        #imu
+        imu = arduino.write('imu'.encode('utf-8'))
+
         #store data
-        storage.addFrame(ts, {'pressure': total_image})
+        storage.addFrame(ts, {'pressure': total_image}, {'imu': imu})
 
         #verbose
         print(f"FPS : {fps}, time: {time()}, Frames : {storage.frameCount}, Storage : {foldername}/{storage.getName()}")
