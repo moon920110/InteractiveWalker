@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     main(
         max_frame = max_frame,
-        foldername = f'/home/cilab/media/yhssd/walker_data1024/{name}',
+        foldername = f'/data_collect/{name}',
         filename = label,
         normalize = False
     )
