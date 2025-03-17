@@ -73,6 +73,7 @@ def main(
 
         #imu
         arduino.write('imu'.encode('utf-8'))
+        time.sleep(0.03)
         imu = float(arduino.readline().decode('utf-8').strip())
         print(imu)
 
