@@ -73,6 +73,7 @@ def main(
 
         #imu
         imu = arduino.write('imu'.encode('utf-8'))
+        print(imu)
 
         #store data
         storage.addFrame(ts, {'pressure': total_image}, {'imu': imu})
