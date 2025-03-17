@@ -1,5 +1,4 @@
 import copy
-
 from tactile_collecting.sensors.sensors import SensorEnv
 from tactile_collecting.model.VisionModel_isaac import FootDetector as isaac_model
 from tactile_collecting.sensors.app.FramerateMonitor import FramerateMonitor
