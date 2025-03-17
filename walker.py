@@ -54,7 +54,6 @@ class Walker:
             keyInput = keyQueue.get()
             if keyInput != '':
                 self.key_flag = True
-                print('key: ', keyInput)
 
             if self.STS_flag:
                 if self.isStand:
