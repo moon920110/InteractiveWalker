@@ -30,7 +30,7 @@ class Brain:
 			self.sensor = SensorEnv(
 				ports=ports,
 				stack_num=20,
-				adaptive_calibration=True,
+				adaptive_calibration=False,
 				normalize=True
 			)
 			if self.logger:
