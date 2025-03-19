@@ -18,6 +18,7 @@ class Walker:
         self.STS_flag = False
         self.key_flag = False
         self.leftright_flag = False
+        self.keyInput = ''
 
         # TODO: IMU
         self.tilt = -50
@@ -51,11 +52,10 @@ class Walker:
             # if keyQueue.empty:
             #     pass
             # else:
-
-            if keyQueue.get() != '':
-                keyInput = keyQueue.get()
-                self.key_flag = True
-            print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright_flag)
+            # keyInput = keyQueue.get()
+            # if keyInput != '':
+            #     self.key_flag = True
+            print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
             if self.STS_flag:
                 if self.isStand:
                     command = 'down'
@@ -73,7 +73,7 @@ class Walker:
                 time.sleep(0.1)
             elif self.key_flag:
                 self.key_flag = False
-                command = keyInput
+                command = self.keyInput
                 arduino.write(command.encode('utf-8'))
                 time.sleep(0.1)
             else:
@@ -119,7 +119,9 @@ class Walker:
     def _run_keyinput(self, keyQueue):
         while not self.stop_event.is_set():
             key = input()
-            keyQueue.put(key)
+            self.key_flag = True
+            self.keyInput = key
+            # keyQueue.put(key)
 
     def run_walker(self):
         keyQueue = queue.Queue()
