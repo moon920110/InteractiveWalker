@@ -89,6 +89,7 @@ class Walker:
     def _run_brain(self):
         while not self.stop_event.is_set():
             self.forback, self.leftright, self.STS = self.brain.think()
+            print('forback: ', self.forback, 'leftright: ', self.leftright)
             if self.leftright <= -0.15 or self.leftright >= 0.15:
                 self.forback = 0
                 self.leftright_flag = True
