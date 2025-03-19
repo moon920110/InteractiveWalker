@@ -75,8 +75,11 @@ class Brain:
 		image /= 1500
 		x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
 		x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
-		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) -\
-				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx]) # + forward
+		# forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)]) -\
+		# 		  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx]) # + forward
+		forback = np.sum(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)] > 0.5) - \
+				  np.sum(image[21:, :][:,
+						  self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx] > 0.5)  # + forward
 		leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) - np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end])  # + right
 		# print(np.mean(image[21:, :][:, :7]))
 		if np.mean(image[21:, :][:, :7]) >= 0.25:
