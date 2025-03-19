@@ -54,7 +54,7 @@ class Walker:
             keyInput = keyQueue.get()
             if keyInput != '':
                 self.key_flag = True
-
+            print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright_flag)
             if self.STS_flag:
                 if self.isStand:
                     command = 'down'
@@ -89,7 +89,6 @@ class Walker:
     def _run_brain(self):
         while not self.stop_event.is_set():
             self.forback, self.leftright, self.STS = self.brain.think()
-            print('forback: ', self.forback, 'leftright: ', self.leftright)
             if self.leftright <= -0.15 or self.leftright >= 0.15:
                 self.forback = 0
                 self.leftright_flag = True
