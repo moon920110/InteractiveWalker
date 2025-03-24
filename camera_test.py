@@ -17,7 +17,7 @@ depth_scale = profile.get_device().first_depth_sensor().get_depth_scale()
 
 def detect_obstacles(depth_frame, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
-    depth_image = np.asanyarray(depth_frame.get_data())[200:280, 170:270] * depth_scale  # Convert depth to meters
+    depth_image = np.asanyarray(depth_frame.get_data()) * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
     return mask, depth_image
 def detect_obstacle_left(depth_frame, threshold=1.5):
