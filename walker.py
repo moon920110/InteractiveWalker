@@ -55,7 +55,7 @@ class Walker:
             # keyInput = keyQueue.get()
             # if keyInput != '':
             #     self.key_flag = True
-            print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
+            # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
             if self.STS_flag:
                 if self.isStand:
                     command = 'down'
