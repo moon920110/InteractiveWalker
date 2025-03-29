@@ -118,7 +118,7 @@ class Walker:
                 arduino.write(command.encode('utf-8'))
                 time.sleep(0.1)
             else:
-                command = 'S1 ' + str(int(1000 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(1000 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
+                command = 'S1 ' + str(int(13 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(13 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
                 # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
                 arduino.write(command.encode('utf-8'))
                 # print(self.angle, self.speed, 'write')
@@ -247,10 +247,10 @@ class Walker:
             if mode == 'full':
                 brain_thread.start()
                 self.logger.info(f'[Walker] Brain thread start')
-                # camera_thread.start()
-                # self.logger.info(f'[Walker] camera thread start')
+                camera_thread.start()
+                self.logger.info(f'[Walker] camera thread start')
                 brain_thread.join()
-                # camera_thread.join()
+                camera_thread.join()
             keyinput_thread.join()
             imu_thread.join()
 
