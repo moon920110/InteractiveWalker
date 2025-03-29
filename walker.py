@@ -201,12 +201,16 @@ class Walker:
             cv2.imshow("Depth Map with Obstacles within 3m", depth_colormap)
 
             # Display the average distance of obstacles within 3 meters
-            if left_average_distance is not None:
-                print(f"Average distance of left obstacles within 1.5 meters: {left_average_distance:.2f} meters")
-            if mid_average_distance is not None:
-                print(f"Average distance of mid obstacles within 1.5 meters: {mid_average_distance:.2f} meters")
-            if right_average_distance is not None:
-                print(f"Average distance of right obstacles within 1.5 meters: {right_average_distance:.2f} meters")
+            if left_average_distance is not None and mid_average_distance is not None:
+                print(f"There is obstacle on your left. Avoiding to right")
+            if mid_average_distance is not None and right_average_distance is not None:
+                print(f"There is obstacle on your right. Avoiding to left")
+            if right_average_distance is not None and left_average_distance is not None and mid_average_distance is not None:
+                if left_average_distance <= right_average_distance:
+                    print(f"There is obstacle on your left. Avoiding to right")
+                if left_average_distance >= right_average_distance:
+                    print(f"There is obstacle on your right. Avoiding to left")
+                # print(f"Average distance of right obstacles within 1.5 meters: {right_average_distance:.2f} meters")
             # else:
             #     print("No obstacles within 1.5 meters detected.")
 
