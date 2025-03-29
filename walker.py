@@ -11,23 +11,23 @@ import numpy as np
 import cv2
 
 
-def detect_obstacles(depth_frame, threshold=1.5):
+def detect_obstacles(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
     depth_image = np.asanyarray(depth_frame.get_data()) * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
     return mask, depth_image
-def detect_obstacle_left(depth_frame, threshold=1.5):
+def detect_obstacle_left(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
     depth_image = np.asanyarray(depth_frame.get_data())[200:280, 170:270] * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
     return mask, depth_image
-def detect_obstacle_mid(depth_frame, threshold=1.5):
+def detect_obstacle_mid(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
     depth_image = np.asanyarray(depth_frame.get_data())[200:280, 270:370] * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
     return mask, depth_image
 
-def detect_obstacle_right(depth_frame, threshold=1.5):
+def detect_obstacle_right(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
     depth_image = np.asanyarray(depth_frame.get_data())[200:280, 370:470] * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
@@ -182,14 +182,14 @@ class Walker:
                 continue
 
             # Detect obstacles within 1.5 meters
-            obstacle_mask, depth_image = detect_obstacle_left(depth_frame, threshold=1.0)
+            obstacle_mask, depth_image = detect_obstacle_left(depth_frame, depth_scale, threshold=1.0)
             # Compute the average distance of obstacles
             left_average_distance = compute_distance(depth_image, obstacle_mask)
-            obstacle_mask, depth_image = detect_obstacle_mid(depth_frame, threshold=1.0)
+            obstacle_mask, depth_image = detect_obstacle_mid(depth_frame, depth_scale, threshold=1.0)
             mid_average_distance = compute_distance(depth_image, obstacle_mask)
-            obstacle_mask, depth_image = detect_obstacle_right(depth_frame, threshold=1.0)
+            obstacle_mask, depth_image = detect_obstacle_right(depth_frame, depth_scale, threshold=1.0)
             right_average_distance = compute_distance(depth_image, obstacle_mask)
-            obstacle_mask, depth_image = detect_obstacles(depth_frame, threshold=1.0)
+            obstacle_mask, depth_image = detect_obstacles(depth_frame, depth_scale, threshold=1.0)
 
             # Normalize depth image for visualization
             depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=50), cv2.COLORMAP_JET)
