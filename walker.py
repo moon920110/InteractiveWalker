@@ -43,7 +43,7 @@ def compute_distance(depth_image, mask):
         return None  # No obstacles
 
 class Walker:
-    def __init__(self):
+    def __init__(self, args):
         self.forback = 0
         self.leftright = 0
         self.STS = False
@@ -74,10 +74,14 @@ class Walker:
         self.brain = Brain(logger=self.logger)
 
         self.stop_event = threading.Event()
-        self.init()
+        self.init(args)
 
 
-    def init(self):
+    def init(self, args):
+        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+        arduino.write(args.mode.encode('utf-8'))
+        time.sleep(5)
+        print('mode set')
         brain_check = self.brain.init()
 
 
@@ -276,5 +280,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument("--mode", type=str, default='full') # full, pressure
     args = parser.parse_args()
-    walker = Walker()
+    walker = Walker(args)
     walker.run_walker(args)
