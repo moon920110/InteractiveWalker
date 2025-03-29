@@ -245,10 +245,10 @@ class Walker:
             if mode == 'full':
                 brain_thread.start()
                 self.logger.info(f'[Walker] Brain thread start')
-                camera_thread.start()
-                self.logger.info(f'[Walker] camera thread start')
+                # camera_thread.start()
+                # self.logger.info(f'[Walker] camera thread start')
                 brain_thread.join()
-                camera_thread.join()
+                # camera_thread.join()
             keyinput_thread.join()
             imu_thread.join()
 
