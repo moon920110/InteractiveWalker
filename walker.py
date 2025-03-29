@@ -86,7 +86,9 @@ class Walker:
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
             time.sleep(0.1)
-            print(float(arduino.readline().decode('utf-8').strip()))
+            try:
+                print(float(arduino.readline().decode('utf-8').strip()))
+            except: pass
 
             # if keyQueue.empty:
             #     pass
