@@ -3,9 +3,8 @@ import logging
 import threading
 import serial
 import time
-from getkey import getkey
 import queue
-
+import argparse
 from parts.brain import Brain
 
 
@@ -19,6 +18,7 @@ class Walker:
         self.key_flag = False
         self.leftright_flag = False
         self.keyInput = ''
+        self.start_signal = 1
 
         # TODO: IMU
         self.tilt = -50
@@ -46,7 +46,7 @@ class Walker:
 
 
 
-    def _run_imu(self, keyQueue):
+    def _run_imu(self, keyQueue, mode):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
             # if keyQueue.empty:
@@ -56,6 +56,10 @@ class Walker:
             # if keyInput != '':
             #     self.key_flag = True
             # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
+            if self.start_signal:
+                self.start_signal = 0
+                arduino.write(mode.encode('utf-8'))
+
             if self.STS_flag:
                 if self.isStand:
                     command = 'down'
@@ -123,24 +127,26 @@ class Walker:
             self.keyInput = key
             # keyQueue.put(key)
 
-    def run_walker(self):
+    def run_walker(self, args):
+        mode = args.mode
         keyQueue = queue.Queue()
-        imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue,))
-        brain_thread = threading.Thread(target=self._run_brain)
+        imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue, mode))
+        if mode == 'full':
+            brain_thread = threading.Thread(target=self._run_brain)
         keyinput_thread = threading.Thread(target=self._run_keyinput, args=(keyQueue,))
 
         try:
             imu_thread.start()
             self.logger.info(f'[Walker] imu thread start')
-            brain_thread.start()
-            self.logger.info(f'[Walker] Brain thread start')
             keyinput_thread.start()
             self.logger.info(f'[Walker] KeyInput thread start')
-
-
-            imu_thread.join()
-            brain_thread.join()
+            if mode == 'full':
+                brain_thread.start()
+                self.logger.info(f'[Walker] Brain thread start')
+                brain_thread.join()
             keyinput_thread.join()
+            imu_thread.join()
+
 
         except KeyboardInterrupt:
             self.logger.error("[Walker] KeyboardInterrupt")
@@ -155,5 +161,8 @@ class Walker:
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument("--mode", type=str, default='full') # full, pressure
+    args = parser.parse_args()
     walker = Walker()
-    walker.run_walker()
+    walker.run_walker(args)
