@@ -85,10 +85,10 @@ class Walker:
     def _run_imu(self, keyQueue, mode):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            time.sleep(0.1)
-            try:
-                print(float(arduino.readline().decode('utf-8').strip()))
-            except: pass
+            # time.sleep(0.1)
+            # try:
+            #     print(float(arduino.readline().decode('utf-8').strip()))
+            # except: pass
 
             # if keyQueue.empty:
             #     pass
@@ -97,10 +97,10 @@ class Walker:
             # if keyInput != '':
             #     self.key_flag = True
             # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
-            if self.start_signal:
-                self.start_signal = 0
-                print(mode)
-                arduino.write(mode.encode('utf-8'))
+            # if self.start_signal:
+            #     self.start_signal = 0
+            #     print(mode)
+            #     arduino.write(mode.encode('utf-8'))
 
             if self.STS_flag:
                 if self.isStand:
@@ -239,9 +239,9 @@ class Walker:
         mode = args.mode
         keyQueue = queue.Queue()
         imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue, mode))
-        if mode == 'full':
-            brain_thread = threading.Thread(target=self._run_brain)
-            camera_thread = threading.Thread(target=self._run_camera)
+        # if mode == 'full':
+        brain_thread = threading.Thread(target=self._run_brain)
+        camera_thread = threading.Thread(target=self._run_camera)
         keyinput_thread = threading.Thread(target=self._run_keyinput, args=(keyQueue,))
 
         try:
@@ -249,13 +249,13 @@ class Walker:
             self.logger.info(f'[Walker] imu thread start')
             keyinput_thread.start()
             self.logger.info(f'[Walker] KeyInput thread start')
-            if mode == 'full':
-                brain_thread.start()
-                self.logger.info(f'[Walker] Brain thread start')
-                camera_thread.start()
-                self.logger.info(f'[Walker] camera thread start')
-                brain_thread.join()
-                camera_thread.join()
+            # if mode == 'full':
+            brain_thread.start()
+            self.logger.info(f'[Walker] Brain thread start')
+            camera_thread.start()
+            self.logger.info(f'[Walker] camera thread start')
+            brain_thread.join()
+            camera_thread.join()
             keyinput_thread.join()
             imu_thread.join()
 
