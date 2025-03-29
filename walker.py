@@ -53,6 +53,8 @@ class Walker:
         self.leftright_flag = False
         self.keyInput = ''
         self.start_signal = 1
+        self.left_turn_scale = 1
+        self.right_turn_scale = 1
 
         # TODO: IMU
         self.tilt = -50
@@ -115,7 +117,7 @@ class Walker:
                 arduino.write(command.encode('utf-8'))
                 time.sleep(0.1)
             else:
-                command = 'S1 ' + str(int(1000 * self.forback)) + ',S2 ' + str(int(1000 * self.forback)) + ",D1 0,D2 0,"
+                command = 'S1 ' + str(int(1000 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(1000 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
                 # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
                 arduino.write(command.encode('utf-8'))
                 # print(self.angle, self.speed, 'write')
@@ -203,14 +205,21 @@ class Walker:
             # Display the average distance of obstacles within 3 meters
             if left_average_distance is not None and mid_average_distance is not None:
                 print(f"There is obstacle on your left. Avoiding to right")
-            if mid_average_distance is not None and right_average_distance is not None:
+                self.right_turn_scale = 0.5
+            elif mid_average_distance is not None and right_average_distance is not None:
                 print(f"There is obstacle on your right. Avoiding to left")
-            if right_average_distance is not None and left_average_distance is not None and mid_average_distance is not None:
+                self.left_turn_scale = 0.5
+            elif right_average_distance is not None and left_average_distance is not None and mid_average_distance is not None:
                 if left_average_distance <= right_average_distance:
                     print(f"There is obstacle on your left. Avoiding to right")
+                    self.right_turn_scale = 0.5
                 if left_average_distance >= right_average_distance:
                     print(f"There is obstacle on your right. Avoiding to left")
+                    self.left_turn_scale = 0.5
                 # print(f"Average distance of right obstacles within 1.5 meters: {right_average_distance:.2f} meters")
+            else:
+                self.left_turn_scale = 1
+                self.right_turn_scale = 1
             # else:
             #     print("No obstacles within 1.5 meters detected.")
 
