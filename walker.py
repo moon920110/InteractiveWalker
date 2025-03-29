@@ -94,6 +94,7 @@ class Walker:
             # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
             if self.start_signal:
                 self.start_signal = 0
+                print(mode)
                 arduino.write(mode.encode('utf-8'))
 
             if self.STS_flag:
