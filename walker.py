@@ -181,38 +181,38 @@ class Walker:
             if not depth_frame:
                 continue
 
-                # Detect obstacles within 1.5 meters
-                obstacle_mask, depth_image = detect_obstacle_left(depth_frame, threshold=1.0)
-                # Compute the average distance of obstacles
-                left_average_distance = compute_distance(depth_image, obstacle_mask)
-                obstacle_mask, depth_image = detect_obstacle_mid(depth_frame, threshold=1.0)
-                mid_average_distance = compute_distance(depth_image, obstacle_mask)
-                obstacle_mask, depth_image = detect_obstacle_right(depth_frame, threshold=1.0)
-                right_average_distance = compute_distance(depth_image, obstacle_mask)
-                obstacle_mask, depth_image = detect_obstacles(depth_frame, threshold=1.0)
+            # Detect obstacles within 1.5 meters
+            obstacle_mask, depth_image = detect_obstacle_left(depth_frame, threshold=1.0)
+            # Compute the average distance of obstacles
+            left_average_distance = compute_distance(depth_image, obstacle_mask)
+            obstacle_mask, depth_image = detect_obstacle_mid(depth_frame, threshold=1.0)
+            mid_average_distance = compute_distance(depth_image, obstacle_mask)
+            obstacle_mask, depth_image = detect_obstacle_right(depth_frame, threshold=1.0)
+            right_average_distance = compute_distance(depth_image, obstacle_mask)
+            obstacle_mask, depth_image = detect_obstacles(depth_frame, threshold=1.0)
 
-                # Normalize depth image for visualization
-                depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=50), cv2.COLORMAP_JET)
+            # Normalize depth image for visualization
+            depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=50), cv2.COLORMAP_JET)
 
-                # Mark obstacles within 3 meters in red
-                depth_colormap[obstacle_mask] = [0, 0, 255]
+            # Mark obstacles within 3 meters in red
+            depth_colormap[obstacle_mask] = [0, 0, 255]
 
-                # Display depth map with obstacle marking
-                cv2.imshow("Depth Map with Obstacles within 3m", depth_colormap)
+            # Display depth map with obstacle marking
+            cv2.imshow("Depth Map with Obstacles within 3m", depth_colormap)
 
-                # Display the average distance of obstacles within 3 meters
-                if left_average_distance is not None:
-                    print(f"Average distance of left obstacles within 1.5 meters: {left_average_distance:.2f} meters")
-                if mid_average_distance is not None:
-                    print(f"Average distance of mid obstacles within 1.5 meters: {mid_average_distance:.2f} meters")
-                if right_average_distance is not None:
-                    print(f"Average distance of right obstacles within 1.5 meters: {right_average_distance:.2f} meters")
-                # else:
-                #     print("No obstacles within 1.5 meters detected.")
+            # Display the average distance of obstacles within 3 meters
+            if left_average_distance is not None:
+                print(f"Average distance of left obstacles within 1.5 meters: {left_average_distance:.2f} meters")
+            if mid_average_distance is not None:
+                print(f"Average distance of mid obstacles within 1.5 meters: {mid_average_distance:.2f} meters")
+            if right_average_distance is not None:
+                print(f"Average distance of right obstacles within 1.5 meters: {right_average_distance:.2f} meters")
+            # else:
+            #     print("No obstacles within 1.5 meters detected.")
 
-                # Press 'q' to exit
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+            # Press 'q' to exit
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
 
     def run_walker(self, args):
