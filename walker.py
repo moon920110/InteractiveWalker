@@ -84,6 +84,7 @@ class Walker:
 
     def _run_imu(self, keyQueue):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+        i = 0
         while not self.stop_event.is_set():
 
             # try:
@@ -106,7 +107,8 @@ class Walker:
             #     arduino.write('init'.encode('utf-8'))
             #     time.sleep(0.1)
             #     print('Init set')
-
+            i += 1
+            print(i)
             if self.STS_flag:
                 if self.isStand:
                     command = 'down'
