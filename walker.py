@@ -80,6 +80,7 @@ class Walker:
     def init(self, args):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
         time.sleep(5)
+        arduino.write('init'.encode('utf-8'))
         mode = args.mode + '\n'
         arduino.write(mode.encode('utf-8'))
         time.sleep(5)
