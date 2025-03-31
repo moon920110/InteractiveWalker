@@ -78,7 +78,7 @@ class Walker:
 
 
     def init(self, args):
-        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
+        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         time.sleep(5)
         arduino.write('init'.encode('utf-8'))
         mode = args.mode + '\n'
@@ -90,9 +90,9 @@ class Walker:
 
 
     def _run_imu(self, keyQueue, mode):
-        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
+        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            # time.sleep(0.1)
+            time.sleep(0.1)
             # try:
             #     print(float(arduino.readline().decode('utf-8').strip()))
             # except: pass
