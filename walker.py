@@ -242,10 +242,9 @@ class Walker:
                 break
 
 
-    def run_walker(self, args):
-        mode = args.mode
+    def run_walker(self):
         keyQueue = queue.Queue()
-        imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue, mode))
+        imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue,))
         # if mode == 'full':
         brain_thread = threading.Thread(target=self._run_brain)
         # camera_thread = threading.Thread(target=self._run_camera)
