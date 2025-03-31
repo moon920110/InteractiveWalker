@@ -172,6 +172,7 @@ class Walker:
             key = input()
             self.key_flag = True
             self.keyInput = key
+            print(key, 'put')
             # keyQueue.put(key)
 
     def _run_camera(self):
