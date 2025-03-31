@@ -189,6 +189,7 @@ class Walker:
         # Depth scaling factor
         depth_scale = profile.get_device().first_depth_sensor().get_depth_scale()
         while not self.stop_event.is_set():
+            time.sleep(0.01)
             frames = pipeline.wait_for_frames()
             depth_frame = frames.get_depth_frame()
 
