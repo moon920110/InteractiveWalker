@@ -85,7 +85,7 @@ class Walker:
     def _run_imu(self, keyQueue, mode):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
         while not self.stop_event.is_set():
-            time.sleep(0.1)
+            # time.sleep(0.1)
             # try:
             #     print(float(arduino.readline().decode('utf-8').strip()))
             # except: pass
@@ -97,10 +97,14 @@ class Walker:
             # if keyInput != '':
             #     self.key_flag = True
             # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
-            # if self.start_signal:
-            #     self.start_signal = 0
-            #     print(mode)
-            #     arduino.write(mode.encode('utf-8'))
+            if self.start_signal:
+                self.start_signal = 0
+                time.sleep(5)
+                print(mode)
+                print('mode set')
+                arduino.write(mode.encode('utf-8'))
+                arduino.write('init'.encode('utf-8'))
+                print('Init set')
 
             if self.STS_flag:
                 if self.isStand:
@@ -276,12 +280,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument("--mode", type=str, default='full') # full, pressure
     args = parser.parse_args()
-    arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
+    # arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
+    # time.sleep(5)
+    # arduino.write('init\n'.encode('utf-8'))
+    # mode = args.mode + '\n'
+    # arduino.write(mode.encode('utf-8'))
     time.sleep(5)
-    arduino.write('init\n'.encode('utf-8'))
-    mode = args.mode + '\n'
-    arduino.write(mode.encode('utf-8'))
-    time.sleep(5)
-    print('mode set')
     walker = Walker(args)
     walker.run_walker(args)
