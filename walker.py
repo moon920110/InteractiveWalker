@@ -83,7 +83,7 @@ class Walker:
 
 
     def _run_imu(self, keyQueue, mode):
-        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
         while not self.stop_event.is_set():
             time.sleep(0.1)
             # try:
@@ -276,9 +276,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument("--mode", type=str, default='full') # full, pressure
     args = parser.parse_args()
-    arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+    arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
     time.sleep(5)
-    arduino.write('init'.encode('utf-8'))
+    arduino.write('init\n'.encode('utf-8'))
     mode = args.mode + '\n'
     arduino.write(mode.encode('utf-8'))
     time.sleep(5)
