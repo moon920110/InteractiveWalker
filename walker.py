@@ -136,7 +136,7 @@ class Walker:
                 # self.temp = arduino.readline().decode('utf-8')
                 # print(self.temp)
             # print(command)
-        pass
+        # pass
 
     def _run_brain(self):
         while not self.stop_event.is_set():
