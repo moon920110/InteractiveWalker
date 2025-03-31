@@ -83,9 +83,9 @@ class Walker:
 
 
     def _run_imu(self, keyQueue, mode):
-        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
+        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
-            # time.sleep(0.1)
+
             # try:
             #     print(float(arduino.readline().decode('utf-8').strip()))
             # except: pass
@@ -99,11 +99,12 @@ class Walker:
             # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
             if self.start_signal:
                 self.start_signal = 0
-                time.sleep(5)
                 print(mode)
                 print('mode set')
                 arduino.write(mode.encode('utf-8'))
+                time.sleep(0.1)
                 arduino.write('init'.encode('utf-8'))
+                time.sleep(0.1)
                 print('Init set')
 
             if self.STS_flag:
