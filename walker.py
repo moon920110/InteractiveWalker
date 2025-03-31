@@ -43,7 +43,7 @@ def compute_distance(depth_image, mask):
         return None  # No obstacles
 
 class Walker:
-    def __init__(self, args):
+    def __init__(self):
         self.forback = 0
         self.leftright = 0
         self.STS = False
@@ -74,15 +74,15 @@ class Walker:
         self.brain = Brain(logger=self.logger)
 
         self.stop_event = threading.Event()
-        self.init(args)
+        self.init()
 
 
-    def init(self, args):
+    def init(self):
         brain_check = self.brain.init()
 
 
 
-    def _run_imu(self, keyQueue, mode):
+    def _run_imu(self, keyQueue):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         while not self.stop_event.is_set():
 
@@ -97,15 +97,15 @@ class Walker:
             # if keyInput != '':
             #     self.key_flag = True
             # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
-            if self.start_signal:
-                self.start_signal = 0
-                print(mode)
-                print('mode set')
-                arduino.write(mode.encode('utf-8'))
-                time.sleep(0.1)
-                arduino.write('init'.encode('utf-8'))
-                time.sleep(0.1)
-                print('Init set')
+            # if self.start_signal:
+            #     self.start_signal = 0
+            #     print(mode)
+            #     print('mode set')
+            #     arduino.write(mode.encode('utf-8'))
+            #     time.sleep(0.1)
+            #     arduino.write('init'.encode('utf-8'))
+            #     time.sleep(0.1)
+            #     print('Init set')
 
             if self.STS_flag:
                 if self.isStand:
@@ -280,14 +280,14 @@ class Walker:
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument("--mode", type=str, default='full') # full, pressure
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description='Process some integers.')
+    # parser.add_argument("--mode", type=str, default='full') # full, pressure
+    # args = parser.parse_args()
     # arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
     # time.sleep(5)
     # arduino.write('init\n'.encode('utf-8'))
     # mode = args.mode + '\n'
     # arduino.write(mode.encode('utf-8'))
-    time.sleep(5)
-    walker = Walker(args)
-    walker.run_walker(args)
+    # time.sleep(5)
+    walker = Walker()
+    walker.run_walker()
