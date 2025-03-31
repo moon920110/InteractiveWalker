@@ -78,13 +78,6 @@ class Walker:
 
 
     def init(self, args):
-        arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
-        time.sleep(5)
-        arduino.write('init'.encode('utf-8'))
-        mode = args.mode + '\n'
-        arduino.write(mode.encode('utf-8'))
-        time.sleep(5)
-        print('mode set')
         brain_check = self.brain.init()
 
 
@@ -283,5 +276,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument("--mode", type=str, default='full') # full, pressure
     args = parser.parse_args()
+    arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+    time.sleep(5)
+    arduino.write('init'.encode('utf-8'))
+    mode = args.mode + '\n'
+    arduino.write(mode.encode('utf-8'))
+    time.sleep(5)
+    print('mode set')
     walker = Walker(args)
     walker.run_walker(args)
