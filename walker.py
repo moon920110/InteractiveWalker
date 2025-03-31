@@ -248,7 +248,7 @@ class Walker:
         imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue, mode))
         # if mode == 'full':
         brain_thread = threading.Thread(target=self._run_brain)
-        camera_thread = threading.Thread(target=self._run_camera)
+        # camera_thread = threading.Thread(target=self._run_camera)
         keyinput_thread = threading.Thread(target=self._run_keyinput, args=(keyQueue,))
 
         try:
@@ -259,10 +259,10 @@ class Walker:
             # if mode == 'full':
             brain_thread.start()
             self.logger.info(f'[Walker] Brain thread start')
-            camera_thread.start()
-            self.logger.info(f'[Walker] camera thread start')
+            # camera_thread.start()
+            # self.logger.info(f'[Walker] camera thread start')
             brain_thread.join()
-            camera_thread.join()
+            # camera_thread.join()
             keyinput_thread.join()
             imu_thread.join()
 
