@@ -82,7 +82,7 @@ class Walker:
 
 
 
-    def _run_imu(self, keyQueue):
+    def _run_imu(self, keyQueue, mode):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         i = 0
         while not self.stop_event.is_set():
@@ -98,48 +98,51 @@ class Walker:
             # if keyInput != '':
             #     self.key_flag = True
             # print('sts:', self.STS_flag, 'key: ', self.key_flag, 'leftright: ', self.leftright)
-            # if self.start_signal:
-            #     self.start_signal = 0
-            #     print(mode)
-            #     print('mode set')
-            #     arduino.write(mode.encode('utf-8'))
-            #     time.sleep(0.1)
+            if self.start_signal:
+                self.start_signal = 0
+                print(mode)
+                print('mode set')
+                arduino.write(mode.encode('utf-8'))
+                time.sleep(0.1)
+                self.temp = arduino.readline().decode('utf-8')
+                print(self.temp)
             #     arduino.write('init'.encode('utf-8'))
             #     time.sleep(0.1)
             #     print('Init set')
             i += 1
             print(i)
-            if self.STS_flag:
-                if self.isStand:
-                    command = 'down'
+            if mode == 'full':
+                if self.STS_flag:
+                    if self.isStand:
+                        command = 'down'
+                    else:
+                        command = 'up'
+                    # print(command)
+                    arduino.write(command.encode('utf-8'))
+                    time.sleep(10)
+                elif self.leftright_flag:
+                    if self.leftright > 0:
+                        command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
+                    else:
+                        command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
+                    arduino.write(command.encode('utf-8'))
+                    time.sleep(0.1)
+                elif self.key_flag:
+                    self.key_flag = False
+                    command = self.keyInput
+                    arduino.write(command.encode('utf-8'))
+                    time.sleep(0.1)
                 else:
-                    command = 'up'
+                    command = 'S1 ' + str(int(13 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(13 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
+                    # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
+                    arduino.write(command.encode('utf-8'))
+                    # print(self.angle, self.speed, 'write')
+                    time.sleep(0.1)
+                    # self.temp = arduino.readline().decode('utf-8')
+                    # print(self.temp)
                 # print(command)
-                arduino.write(command.encode('utf-8'))
-                time.sleep(10)
-            elif self.leftright_flag:
-                if self.leftright > 0:
-                    command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
-                else:
-                    command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
-                arduino.write(command.encode('utf-8'))
-                time.sleep(0.1)
-            elif self.key_flag:
-                self.key_flag = False
-                command = self.keyInput
-                arduino.write(command.encode('utf-8'))
-                time.sleep(0.1)
-            else:
-                command = 'S1 ' + str(int(13 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(13 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
-                # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
-                arduino.write(command.encode('utf-8'))
-                # print(self.angle, self.speed, 'write')
-                time.sleep(0.1)
-                # self.temp = arduino.readline().decode('utf-8')
-                # print(self.temp)
-            # print(command)
-            self.temp = arduino.readline().decode('utf-8')
-            print(self.temp)
+                self.temp = arduino.readline().decode('utf-8')
+                print(self.temp)
         # pass
 
     def _run_brain(self):
@@ -246,9 +249,10 @@ class Walker:
                 break
 
 
-    def run_walker(self):
+    def run_walker(self, args):
         keyQueue = queue.Queue()
-        imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue,))
+        mode = args.mode
+        imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue, mode))
         # if mode == 'full':
         brain_thread = threading.Thread(target=self._run_brain)
         # camera_thread = threading.Thread(target=self._run_camera)
@@ -283,9 +287,9 @@ class Walker:
 
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser(description='Process some integers.')
-    # parser.add_argument("--mode", type=str, default='full') # full, pressure
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument("--mode", type=str, default='full') # full, pressure
+    args = parser.parse_args()
     # arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=10)
     # time.sleep(5)
     # arduino.write('init\n'.encode('utf-8'))
@@ -293,4 +297,4 @@ if __name__ == '__main__':
     # arduino.write(mode.encode('utf-8'))
     # time.sleep(5)
     walker = Walker()
-    walker.run_walker()
+    walker.run_walker(args)
