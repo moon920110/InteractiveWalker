@@ -110,7 +110,7 @@ class Walker:
             #     time.sleep(0.1)
             #     print('Init set')
             i += 1
-            print(i)
+            # print(i)
             if mode == 'full':
                 if self.STS_flag:
                     if self.isStand:
