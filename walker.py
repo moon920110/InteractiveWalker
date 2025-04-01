@@ -138,6 +138,8 @@ class Walker:
                 # self.temp = arduino.readline().decode('utf-8')
                 # print(self.temp)
             # print(command)
+            self.temp = arduino.readline().decode('utf-8')
+            print(self.temp)
         # pass
 
     def _run_brain(self):
