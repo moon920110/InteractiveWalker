@@ -84,6 +84,7 @@ class Walker:
 
     def _run_imu(self, keyQueue, mode):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+        time.sleep(2)
         i = 0
         while not self.stop_event.is_set():
 
