@@ -118,7 +118,7 @@ class Walker:
                         command = 'down'
                     else:
                         command = 'up'
-                    # print(command)
+                    print(command)
                     arduino.write(command.encode('utf-8'))
                     time.sleep(10)
                 elif self.leftright_flag:
@@ -142,8 +142,8 @@ class Walker:
                     # self.temp = arduino.readline().decode('utf-8')
                     # print(self.temp)
                 # print(command)
-                self.temp = arduino.readline().decode('utf-8')
-                print(self.temp)
+                # self.temp = arduino.readline().decode('utf-8')
+                # print(self.temp)
         # pass
 
     def _run_brain(self):
