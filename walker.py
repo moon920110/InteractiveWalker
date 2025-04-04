@@ -134,7 +134,7 @@ class Walker:
                     arduino.write(command.encode('utf-8'))
                     time.sleep(0.1)
                 else:
-                    command = 'S1 ' + str(int(8 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(8 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
+                    command = 'S1 ' + str(int(20 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(20 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
                     # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
                     arduino.write(command.encode('utf-8'))
                     # print(self.angle, self.speed, 'write')
