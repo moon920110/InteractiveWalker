@@ -150,14 +150,14 @@ class Walker:
         while not self.stop_event.is_set():
             self.forback, self.leftright, self.STS = self.brain.think()
             # print(self.forback)
-            if self.leftright <= -0.15 or self.leftright >= 0.15:
+            if self.leftright <= -0.25 or self.leftright >= 0.25:
                 self.forback = 0
                 self.leftright_flag = True
             else:
                 self.leftright_flag = False
-            if self.leftright >= -0.03 and self.leftright <= 0.03:
+            if self.leftright >= -0.1 and self.leftright <= 0.1:
                 self.leftright = 0
-            if self.forback >= -0.03 and self.forback <= 0.03:
+            if self.forback >= -3 and self.forback <= 3:
                 self.forback = 0
 
             if self.forback != 0 and self.leftright != 0:
