@@ -128,6 +128,7 @@ class Walker:
                         command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
                     arduino.write(command.encode('utf-8'))
                     time.sleep(0.1)
+                    print('leftright')
                 elif self.key_flag:
                     self.key_flag = False
                     command = self.keyInput
@@ -141,6 +142,7 @@ class Walker:
                     time.sleep(0.1)
                     # self.temp = arduino.readline().decode('utf-8')
                     # print(self.temp)
+                    print('forward')
                 # print(command)
                 # self.temp = arduino.readline().decode('utf-8')
                 # print(self.temp)
@@ -149,7 +151,7 @@ class Walker:
     def _run_brain(self):
         while not self.stop_event.is_set():
             self.forback, self.leftright, self.STS = self.brain.think()
-            print('forback: ', self.forback, ' leftright: ', self.leftright)
+            # print('forback: ', self.forback, ' leftright: ', self.leftright)
             if self.leftright <= -0.25 or self.leftright >= 0.25:
                 self.forback = 0
                 self.leftright_flag = True
@@ -226,17 +228,17 @@ class Walker:
 
             # Display the average distance of obstacles within 3 meters
             if left_average_distance is not None and mid_average_distance is not None:
-                print(f"There is obstacle on your left. Avoiding to right")
+                # print(f"There is obstacle on your left. Avoiding to right")
                 self.right_turn_scale = 0.5
             elif mid_average_distance is not None and right_average_distance is not None:
-                print(f"There is obstacle on your right. Avoiding to left")
+                # print(f"There is obstacle on your right. Avoiding to left")
                 self.left_turn_scale = 0.5
             elif right_average_distance is not None and left_average_distance is not None and mid_average_distance is not None:
                 if left_average_distance <= right_average_distance:
-                    print(f"There is obstacle on your left. Avoiding to right")
+                    # print(f"There is obstacle on your left. Avoiding to right")
                     self.right_turn_scale = 0.5
                 if left_average_distance >= right_average_distance:
-                    print(f"There is obstacle on your right. Avoiding to left")
+                    # print(f"There is obstacle on your right. Avoiding to left")
                     self.left_turn_scale = 0.5
                 # print(f"Average distance of right obstacles within 1.5 meters: {right_average_distance:.2f} meters")
             else:
