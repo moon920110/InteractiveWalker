@@ -129,6 +129,7 @@ class Walker:
                     arduino.write(command.encode('utf-8'))
                     time.sleep(0.1)
                     print('leftright')
+                    print(command)
                 elif self.key_flag:
                     self.key_flag = False
                     command = self.keyInput
@@ -143,6 +144,7 @@ class Walker:
                     # self.temp = arduino.readline().decode('utf-8')
                     # print(self.temp)
                     print('forward')
+                    print(command)
                 # print(command)
                 # self.temp = arduino.readline().decode('utf-8')
                 # print(self.temp)
