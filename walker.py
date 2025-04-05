@@ -55,6 +55,7 @@ class Walker:
         self.start_signal = 1
         self.left_turn_scale = 1
         self.right_turn_scale = 1
+        self.precommand = None
 
         # TODO: IMU
         self.tilt = -50
@@ -85,7 +86,7 @@ class Walker:
     def _run_imu(self, keyQueue, mode):
         arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
         time.sleep(2)
-        i = 0
+        # i = 0
         while not self.stop_event.is_set():
 
             # try:
@@ -110,7 +111,7 @@ class Walker:
             #     arduino.write('init'.encode('utf-8'))
             #     time.sleep(0.1)
             #     print('Init set')
-            i += 1
+            # i += 1
             # print(i)
             if mode == 'full':
                 if self.STS_flag:
@@ -126,7 +127,9 @@ class Walker:
                         command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
                     else:
                         command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
-                    arduino.write(command.encode('utf-8'))
+                    if command != self.precommand:
+                        arduino.write(command.encode('utf-8'))
+                    self.precommand = command
                     time.sleep(0.1)
                     print('leftright')
                     print(command)
@@ -138,7 +141,9 @@ class Walker:
                 else:
                     command = 'S1 ' + str(int(20 * self.forback * self.left_turn_scale)) + ',S2 ' + str(int(20 * self.forback * self.right_turn_scale)) + ",D1 0,D2 0,"
                     # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
-                    arduino.write(command.encode('utf-8'))
+                    if command != self.precommand:
+                        arduino.write(command.encode('utf-8'))
+                    self.precommand = command
                     # print(self.angle, self.speed, 'write')
                     time.sleep(0.1)
                     # self.temp = arduino.readline().decode('utf-8')
