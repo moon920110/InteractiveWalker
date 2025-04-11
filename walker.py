@@ -18,18 +18,18 @@ def detect_obstacles(depth_frame, depth_scale, threshold=1.5):
     return mask, depth_image
 def detect_obstacle_left(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
-    depth_image = np.asanyarray(depth_frame.get_data())[200:280, 170:270] * depth_scale  # Convert depth to meters
+    depth_image = np.asanyarray(depth_frame.get_data())[200:280, 120:270] * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
     return mask, depth_image
 def detect_obstacle_mid(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
-    depth_image = np.asanyarray(depth_frame.get_data())[200:280, 270:370] * depth_scale  # Convert depth to meters
+    depth_image = np.asanyarray(depth_frame.get_data())[200:280, 220:420] * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
     return mask, depth_image
 
 def detect_obstacle_right(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
-    depth_image = np.asanyarray(depth_frame.get_data())[200:280, 370:470] * depth_scale  # Convert depth to meters
+    depth_image = np.asanyarray(depth_frame.get_data())[200:280, 370:520] * depth_scale  # Convert depth to meters
     mask = (depth_image > 0) & (depth_image < threshold)  # Highlight obstacles closer than threshold
     return mask, depth_image
 
