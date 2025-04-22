@@ -128,7 +128,7 @@ class Walker:
                         command = 'S1 200' + ',S2 200' + ",D1 0,D2 1,"
                     else:
                         # command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
-                        command = 'S1 200' + ',S2 200' + ",D1 1,D2 2,"
+                        command = 'S1 200' + ',S2 200' + ",D1 1,D2 0,"
                     if command != self.precommand:
                         arduino.write(command.encode('utf-8'))
                     self.precommand = command
@@ -141,8 +141,8 @@ class Walker:
                     arduino.write(command.encode('utf-8'))
                     time.sleep(0.1)
                 else:
-                    command = 'S1 ' + str(min(int(2000 * self.forback * self.left_turn_scale * (1 - 2 * self.leftright)), 200)) + \
-                              ',S2 ' + str(min(int(2000 * self.forback * self.right_turn_scale * (1 - 2 * self.leftright)), 200)) + ",D1 0,D2 0,"
+                    command = 'S1 ' + str(min(int(2000 * self.forback * self.left_turn_scale * (1 - 2 * self.leftright)), 300)) + \
+                              ',S2 ' + str(min(int(2000 * self.forback * self.right_turn_scale * (1 - 2 * self.leftright)), 300)) + ",D1 0,D2 0,"
                     # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
                     if command != self.precommand:
                         arduino.write(command.encode('utf-8'))
