@@ -135,7 +135,7 @@ class Walker:
                     time.sleep(0.1)
                     print('leftright')
                     print(command)
-                    self.leftright_flag = False
+                    # self.leftright_flag = False
                 elif self.key_flag:
                     self.key_flag = False
                     command = self.keyInput
