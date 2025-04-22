@@ -96,16 +96,20 @@ class Brain:
 		x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
 		# forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)]) -\
 		# 		  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx]) # + forward
-		forback = np.sum(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)] > 0.3) +\
-				  np.sum(image[10:21, :][:, self.left_arm_cx:self.left_arm_cx + int(self.left_arm_x_range * 0.7)] > 0.3) - \
-				  np.sum(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx] > 0.3) - \
-				  np.sum(image[10:21, :][:, self.left_arm_cx - int(self.left_arm_x_range * 0.7):self.left_arm_cx] > 0.3) # + forward
+		# forback = np.sum(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)] > 0.3) +\
+		# 		  np.sum(image[10:21, :][:, self.left_arm_cx:self.left_arm_cx + int(self.left_arm_x_range * 0.7)] > 0.3) - \
+		# 		  np.sum(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx] > 0.3) - \
+		# 		  np.sum(image[10:21, :][:, self.left_arm_cx - int(self.left_arm_x_range * 0.7):self.left_arm_cx] > 0.3) # + forward
+		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)]) + \
+				  np.mean(image[10:21, :][:, self.left_arm_cx:self.left_arm_cx + int(self.left_arm_x_range * 0.7)]) - \
+				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx]) - \
+				  np.mean(image[10:21, :][:, self.left_arm_cx - int(self.left_arm_x_range * 0.7):self.left_arm_cx])  # + forward
 		leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) +\
 					np.mean(image[10:21, :][self.left_arm_cy:, x_from:x_end]) -\
 					np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end]) -\
 					np.mean(image[10:21, :][:self.left_arm_cy, x_from:x_end]) # + right
 		# print(np.mean(image[21:, :][:, :7]))
-		if np.mean(image[21:, :][:, :7]) >= 0.3:
+		if np.mean(image[21:, :][:, :7]) >= 0.2:
 			STS = True
 		else:
 			STS = False

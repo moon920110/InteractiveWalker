@@ -114,6 +114,7 @@ class Walker:
             # i += 1
             # print(i)
             if mode == 'full':
+                if
                 if self.STS_flag:
                     if self.isStand:
                         command = 'down'
@@ -124,9 +125,11 @@ class Walker:
                     time.sleep(10)
                 elif self.leftright_flag:
                     if self.leftright > 0:
-                        command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
+                        # command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
+                        command = 'S1 200' + ',S2 200' + ",D1 0,D2 1,"
                     else:
-                        command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
+                        # command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
+                        command = 'S1 200' + ',S2 200' + ",D1 1,D2 2,"
                     if command != self.precommand:
                         arduino.write(command.encode('utf-8'))
                     self.precommand = command
@@ -139,7 +142,8 @@ class Walker:
                     arduino.write(command.encode('utf-8'))
                     time.sleep(0.1)
                 else:
-                    command = 'S1 ' + str(min(int(20 * self.forback * self.left_turn_scale), 200)) + ',S2 ' + str(min(int(20 * self.forback * self.right_turn_scale), 200)) + ",D1 0,D2 0,"
+                    command = 'S1 ' + str(min(int(500 * self.forback * self.left_turn_scale * (1 - 2 * self.leftright)), 200)) + \
+                              ',S2 ' + str(min(int(500 * self.forback * self.right_turn_scale * (1 - 2 * self.leftright)), 200)) + ",D1 0,D2 0,"
                     # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
                     if command != self.precommand:
                         arduino.write(command.encode('utf-8'))
@@ -159,14 +163,14 @@ class Walker:
         while not self.stop_event.is_set():
             self.forback, self.leftright, self.STS = self.brain.think()
             # print('forback: ', self.forback, ' leftright: ', self.leftright)
-            if self.leftright <= -0.25 or self.leftright >= 0.25:
+            if self.leftright <= -0.20 or self.leftright >= 0.20:
                 self.forback = 0
                 self.leftright_flag = True
             else:
                 self.leftright_flag = False
-            if self.leftright >= -0.1 and self.leftright <= 0.1:
+            if self.leftright >= -0.03 and self.leftright <= 0.03:
                 self.leftright = 0
-            if self.forback >= -3 and self.forback <= 3:
+            if self.forback >= -0.05 and self.forback <= 0.05:
                 self.forback = 0
 
             if self.forback != 0 and self.leftright != 0:
@@ -231,7 +235,7 @@ class Walker:
             depth_colormap[obstacle_mask] = [0, 0, 255]
 
             # Display depth map with obstacle marking
-            cv2.imshow("Depth Map with Obstacles within 3m", depth_colormap)
+            # cv2.imshow("Depth Map with Obstacles within 3m", depth_colormap)
 
             # Display the average distance of obstacles within 3 meters
             if left_average_distance is not None and mid_average_distance is not None:
@@ -255,8 +259,8 @@ class Walker:
             #     print("No obstacles within 1.5 meters detected.")
 
             # Press 'q' to exit
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
 
 
     def run_walker(self, args):
