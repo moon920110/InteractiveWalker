@@ -114,7 +114,6 @@ class Walker:
             # i += 1
             # print(i)
             if mode == 'full':
-                if
                 if self.STS_flag:
                     if self.isStand:
                         command = 'down'
