@@ -169,7 +169,7 @@ class Walker:
                 self.leftright_flag = False
             if self.leftright >= -0.03 and self.leftright <= 0.03:
                 self.leftright = 0
-            if self.forback >= -0.03 and self.forback <= 0.03:
+            if self.forback >= -0.05 and self.forback <= 0.05:
                 self.forback = 0
 
             if self.forback != 0 and self.leftright != 0:
