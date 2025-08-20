@@ -5,6 +5,7 @@ from tactile_collecting.sensors.app.FramerateMonitor import FramerateMonitor
 from utils.utils import visualize
 import numpy as np
 import cv2 as cv2
+import time
 
 class Brain:
 	def __init__(self, logger=None):
@@ -25,26 +26,27 @@ class Brain:
 		self.left_arm_y_range = None
 
 	def init(self, ports=["/dev/ttyUSB0"]):
-		try:
-			self.model = isaac_model(visualize=True)
-			self.fps_monitor = FramerateMonitor()
-
-			if self.logger:
-				self.logger.info("[Brain] initializing sensors...")
-			self.sensor = SensorEnv(
-				ports=ports,
-				stack_num=20,
-				adaptive_calibration=False,
-				normalize=True
-			)
-			if self.logger:
-				self.logger.info("[Brain] sensor init finish")
-			return True
-
-		except Exception as e:
-			if self.logger:
-				self.logger.error(f"[Brain] sensor init error: {e}")
-			return False
+		print('brain code start')
+		# try:
+		# 	self.model = isaac_model(visualize=True)
+		# 	self.fps_monitor = FramerateMonitor()
+		#
+		# 	if self.logger:
+		# 		self.logger.info("[Brain] initializing sensors...")
+		# 	self.sensor = SensorEnv(
+		# 		ports=ports,
+		# 		stack_num=20,
+		# 		adaptive_calibration=False,
+		# 		normalize=True
+		# 	)
+		# 	if self.logger:
+		# 		self.logger.info("[Brain] sensor init finish")
+		# 	return True
+		#
+		# except Exception as e:
+		# 	if self.logger:
+		# 		self.logger.error(f"[Brain] sensor init error: {e}")
+		# 	return False
 
 	def test_sensor(self):
 		while True:
@@ -53,12 +55,13 @@ class Brain:
 				break
 			print(f"sensor FPS : {self.sensor.fps}")
 
-	def think(self):
+	def think(self, q):
 		if self.start_signal == 1:
 			self.start_signal = 0
 			for i in range(50):
-				total_image = self.sensor.get()
+				total_image = q.get()
 				self.base_images.append(total_image[-1])
+				time.sleep(0.1)
 			base_images = np.array(self.base_images[:-30])
 			self.base_image = np.mean(base_images, axis=0)
 			temp = np.array(np.transpose(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]), (1, 2, 0)), dtype='uint8')
@@ -89,7 +92,7 @@ class Brain:
 			self.left_arm_x_range = w
 			self.left_arm_y_range = h
 
-		images = self.sensor.get()
+		images = q.get()
 		image = np.clip(images[-1] - self.base_image, 0, 1500)
 		image /= 1500
 		x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)

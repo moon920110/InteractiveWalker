@@ -9,7 +9,10 @@ from parts.brain import Brain
 import pyrealsense2 as rs
 import numpy as np
 import cv2
+from sensors.utils import programSensor
+from sensors.TouchSensorWireless import MultiProtocolReceiver
 
+q = queue.Queue(maxsize=1)
 
 def detect_obstacles(depth_frame, depth_scale, threshold=1.5):
     """Detects obstacles closer than a given threshold (meters)"""
@@ -125,10 +128,10 @@ class Walker:
                 elif self.leftright_flag:
                     if self.leftright > 0:
                         # command = 'S1 ' + str(int(500 * self.leftright)) + ',S2 ' + str(int(500 * self.leftright)) + ",D1 0,D2 1,"
-                        command = 'S1 200' + ',S2 200' + ",D1 0,D2 1,"
+                        command = 'S1 200' + ',S2 200' + ",D1 0,D2 1,\n"
                     else:
                         # command = 'S1 ' + str(int(500 * (-self.leftright))) + ',S2 ' + str(int(500 * (-self.leftright))) + ",D1 1,D2 0,"
-                        command = 'S1 200' + ',S2 200' + ",D1 1,D2 0,"
+                        command = 'S1 200' + ',S2 200' + ",D1 1,D2 0,\n"
                     if command != self.precommand:
                         arduino.write(command.encode('utf-8'))
                     self.precommand = command
@@ -143,7 +146,7 @@ class Walker:
                     time.sleep(0.1)
                 else:
                     command = 'S1 ' + str(int(min(int(3000 * self.forback * self.left_turn_scale), 300) * (1 - 2 * self.leftright))) + \
-                              ',S2 ' + str(int(min(int(3000 * self.forback * self.right_turn_scale), 300) * (1 + 2 * self.leftright))) + ",D1 0,D2 0,"
+                              ',S2 ' + str(int(min(int(3000 * self.forback * self.right_turn_scale), 300) * (1 + 2 * self.leftright))) + ",D1 0,D2 0,\n"
                     # arduino.write('S1 0,S2 0,D1 0,D2 0'.encode('utf-8'))
                     if command != self.precommand:
                         arduino.write(command.encode('utf-8'))
@@ -161,7 +164,7 @@ class Walker:
 
     def _run_brain(self):
         while not self.stop_event.is_set():
-            self.forback, self.leftright, self.STS = self.brain.think()
+            self.forback, self.leftright, self.STS = self.brain.think(q)
             # print('forback: ', self.forback, ' leftright: ', self.leftright)
             if self.leftright <= -0.15 or self.leftright >= 0.15:
                 self.forback = 0
@@ -266,8 +269,12 @@ class Walker:
     def run_walker(self, args):
         keyQueue = queue.Queue()
         mode = args.mode
+        programSensor(1)
+        myReceiver = MultiProtocolReceiver()
+        myReceiver.initializeReceivers(False)
+        captureThread = threading.Thread(target=myReceiver.startReceiverThread)
+        checkThread = threading.Thread(target=myReceiver.check, args=(q,))
         imu_thread = threading.Thread(target=self._run_imu, args=(keyQueue, mode))
-        # if mode == 'full':
         brain_thread = threading.Thread(target=self._run_brain)
         camera_thread = threading.Thread(target=self._run_camera)
         # keyinput_thread = threading.Thread(target=self._run_keyinput, args=(keyQueue,))
@@ -286,6 +293,11 @@ class Walker:
             camera_thread.join()
             # keyinput_thread.join()
             imu_thread.join()
+
+            captureThread.start()
+            checkThread.start()
+            captureThread.join()
+            checkThread.join()
 
 
         except KeyboardInterrupt:
