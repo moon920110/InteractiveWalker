@@ -17,7 +17,7 @@
     {
       "id": 1,
       "protocol": "serial",
-      "serialPort": "/dev/tty.usbserial-015645A3",
+      "serialPort": "/dev/ttyUSB0",
       "deviceName": "Esp1",
       "startCoord": [0, 0],
       "endCoord": [31, 31],
