@@ -93,6 +93,7 @@ class Brain:
 			self.left_arm_y_range = h
 
 		images = q.get()
+		print(images)
 		image = np.clip(images[-1] - self.base_image, 0, 1500)
 		image /= 1500
 		x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
