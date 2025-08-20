@@ -165,7 +165,7 @@ class Walker:
     def _run_brain(self):
         while not self.stop_event.is_set():
             print('step1')
-            print(q)
+            print(q.get())
             self.forback, self.leftright, self.STS = self.brain.think(q)
             print('step2')
             # print('forback: ', self.forback, ' leftright: ', self.leftright)
