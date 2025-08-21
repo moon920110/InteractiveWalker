@@ -165,7 +165,6 @@ class Walker:
     def _run_brain(self):
         while not self.stop_event.is_set():
             print('step1')
-            print(q.get())
             self.forback, self.leftright, self.STS = self.brain.think(q)
             print('step2')
             # print('forback: ', self.forback, ' leftright: ', self.leftright)
@@ -283,6 +282,11 @@ class Walker:
         # keyinput_thread = threading.Thread(target=self._run_keyinput, args=(keyQueue,))
 
         try:
+            captureThread.start()
+            checkThread.start()
+            captureThread.join()
+            checkThread.join()
+
             imu_thread.start()
             self.logger.info(f'[Walker] imu thread start')
             # keyinput_thread.start()
@@ -296,11 +300,6 @@ class Walker:
             camera_thread.join()
             # keyinput_thread.join()
             imu_thread.join()
-
-            captureThread.start()
-            checkThread.start()
-            captureThread.join()
-            checkThread.join()
 
 
         except KeyboardInterrupt:
