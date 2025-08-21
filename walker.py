@@ -284,8 +284,6 @@ class Walker:
         try:
             captureThread.start()
             checkThread.start()
-            captureThread.join()
-            checkThread.join()
 
             imu_thread.start()
             self.logger.info(f'[Walker] imu thread start')
@@ -296,6 +294,8 @@ class Walker:
             self.logger.info(f'[Walker] Brain thread start')
             camera_thread.start()
             self.logger.info(f'[Walker] camera thread start')
+            captureThread.join()
+            checkThread.join()
             brain_thread.join()
             camera_thread.join()
             # keyinput_thread.join()
