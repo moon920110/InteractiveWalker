@@ -139,13 +139,15 @@ class Brain:
 		# if not visualize(visual_image):
 		# 	return
 
-		main_fps = round(self.fps_monitor.getFps())
-		sensor_fps = self.sensor.fps
+		# main_fps = round(self.fps_monitor.getFps())
+		# sensor_fps = self.sensor.fps
 
 		# if self.logger:
 		# 	self.logger.info(f"[Brain] sensor FPS:{sensor_fps}, main FPS: {main_fps}, Angle:{angle}, Speed:{speed}")
 
-		return forback, leftright, STS
+		# return forback, leftright, STS
+
+		return 0, 0, 0
 
 	def terminate(self):
 		self.sensor.close()
