@@ -60,7 +60,7 @@ class Brain:
 			self.start_signal = 0
 			for i in range(50):
 				total_image = q.get()
-				print(total_image)
+				# print(total_image)
 				self.base_images.append(total_image[-1])
 				time.sleep(0.1)
 			base_images = np.array(self.base_images[:-30])
@@ -94,7 +94,7 @@ class Brain:
 			# self.left_arm_y_range = h
 
 		images = q.get()
-		print(images)
+		# print(images)
 		image = np.clip(images[-1] - self.base_image, 0, 1500)
 		image /= 1500
 		# x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
@@ -123,7 +123,7 @@ class Brain:
 		visual_image = copy.deepcopy(image) * 255
 		visual_image = np.clip(visual_image, 0, 255)
 		visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
-
+		print(visual_image)
 		cv2.imshow("Pressure", visual_image)
 		# if cv2.waitKey(1) & 0xff == 27:
 		# 	break
