@@ -68,63 +68,63 @@ class Brain:
 			temp = np.array(np.transpose(np.array([self.base_image[21:,:]/100,self.base_image[21:,:]/100,self.base_image[21:,:]/100]), (1, 2, 0)), dtype='uint8')
 			temp[temp <= 30] = 0
 			temp = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
-			right_arm_cnts, _ = cv2.findContours(temp, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-			sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
-			x, y, w, h = cv2.boundingRect(sorted_right_arm_cnts[0])
-			print(x, y, w, h)
-			M = cv2.moments(sorted_right_arm_cnts[0])
-			self.right_arm_cx = int(M['m10'] / M['m00'])
-			self.right_arm_cy = int(M['m01'] / M['m00'])
-			self.right_arm_x_range = w
-			self.right_arm_y_range = h
-
-			temp = np.array(np.transpose(
-				np.array([self.base_image[10:21, :] / 100, self.base_image[10:21, :] / 100, self.base_image[10:21, :] / 100]),
-				(1, 2, 0)), dtype='uint8')
-			temp[temp <= 30] = 0
-			temp = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
-			left_arm_cnts, _ = cv2.findContours(temp, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-			sorted_left_arm_cnts = sorted(left_arm_cnts, key=cv2.contourArea, reverse=True)
-			x, y, w, h = cv2.boundingRect(sorted_left_arm_cnts[0])
-			print(x, y, w, h)
-			M = cv2.moments(sorted_left_arm_cnts[0])
-			self.left_arm_cx = int(M['m10'] / M['m00'])
-			self.left_arm_cy = int(M['m01'] / M['m00'])
-			self.left_arm_x_range = w
-			self.left_arm_y_range = h
+			# right_arm_cnts, _ = cv2.findContours(temp, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+			# sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
+			# x, y, w, h = cv2.boundingRect(sorted_right_arm_cnts[0])
+			# print(x, y, w, h)
+			# M = cv2.moments(sorted_right_arm_cnts[0])
+			# self.right_arm_cx = int(M['m10'] / M['m00'])
+			# self.right_arm_cy = int(M['m01'] / M['m00'])
+			# self.right_arm_x_range = w
+			# self.right_arm_y_range = h
+			#
+			# temp = np.array(np.transpose(
+			# 	np.array([self.base_image[10:21, :] / 100, self.base_image[10:21, :] / 100, self.base_image[10:21, :] / 100]),
+			# 	(1, 2, 0)), dtype='uint8')
+			# temp[temp <= 30] = 0
+			# temp = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
+			# left_arm_cnts, _ = cv2.findContours(temp, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+			# sorted_left_arm_cnts = sorted(left_arm_cnts, key=cv2.contourArea, reverse=True)
+			# x, y, w, h = cv2.boundingRect(sorted_left_arm_cnts[0])
+			# print(x, y, w, h)
+			# M = cv2.moments(sorted_left_arm_cnts[0])
+			# self.left_arm_cx = int(M['m10'] / M['m00'])
+			# self.left_arm_cy = int(M['m01'] / M['m00'])
+			# self.left_arm_x_range = w
+			# self.left_arm_y_range = h
 
 		images = q.get()
 		print(images)
 		image = np.clip(images[-1] - self.base_image, 0, 1500)
 		image /= 1500
-		x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
-		x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
-		# forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)]) -\
-		# 		  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx]) # + forward
-		# forback = np.sum(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)] > 0.3) +\
-		# 		  np.sum(image[10:21, :][:, self.left_arm_cx:self.left_arm_cx + int(self.left_arm_x_range * 0.7)] > 0.3) - \
-		# 		  np.sum(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx] > 0.3) - \
-		# 		  np.sum(image[10:21, :][:, self.left_arm_cx - int(self.left_arm_x_range * 0.7):self.left_arm_cx] > 0.3) # + forward
-		forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) + \
-				  np.mean(image[10:21, :][:, self.left_arm_cx:self.left_arm_cx + int(self.left_arm_x_range * 0.6)]) - \
-				  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx]) - \
-				  np.mean(image[10:21, :][:, self.left_arm_cx - int(self.left_arm_x_range * 0.6):self.left_arm_cx])  # + forward
-		leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) +\
-					np.mean(image[10:21, :][self.left_arm_cy:, x_from:x_end]) -\
-					np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end]) -\
-					np.mean(image[10:21, :][:self.left_arm_cy, x_from:x_end]) # + right
-		# print(np.mean(image[21:, :][:, :7]))
-		if np.mean(image[21:, :][:, :7]) >= 0.15:
-			STS = True
-		else:
-			STS = False
+		# x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
+		# x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
+		# # forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)]) -\
+		# # 		  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx]) # + forward
+		# # forback = np.sum(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)] > 0.3) +\
+		# # 		  np.sum(image[10:21, :][:, self.left_arm_cx:self.left_arm_cx + int(self.left_arm_x_range * 0.7)] > 0.3) - \
+		# # 		  np.sum(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.7):self.right_arm_cx] > 0.3) - \
+		# # 		  np.sum(image[10:21, :][:, self.left_arm_cx - int(self.left_arm_x_range * 0.7):self.left_arm_cx] > 0.3) # + forward
+		# forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.6)]) + \
+		# 		  np.mean(image[10:21, :][:, self.left_arm_cx:self.left_arm_cx + int(self.left_arm_x_range * 0.6)]) - \
+		# 		  np.mean(image[21:, :][:, self.right_arm_cx - int(self.right_arm_x_range * 0.6):self.right_arm_cx]) - \
+		# 		  np.mean(image[10:21, :][:, self.left_arm_cx - int(self.left_arm_x_range * 0.6):self.left_arm_cx])  # + forward
+		# leftright = np.mean(image[21:, :][:self.right_arm_cy, x_from:x_end]) +\
+		# 			np.mean(image[10:21, :][self.left_arm_cy:, x_from:x_end]) -\
+		# 			np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end]) -\
+		# 			np.mean(image[10:21, :][:self.left_arm_cy, x_from:x_end]) # + right
+		# # print(np.mean(image[21:, :][:, :7]))
+		# if np.mean(image[21:, :][:, :7]) >= 0.15:
+		# 	STS = True
+		# else:
+		# 	STS = False
 
 		# print(forback, leftright)
-		# visual_image = copy.deepcopy(images[-1]) * 255
-		# visual_image = np.clip(visual_image, 0, 255)
-		# visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
+		visual_image = copy.deepcopy(images[-1]) * 255
+		visual_image = np.clip(visual_image, 0, 255)
+		visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
 
-		# cv2.imshow("Pressure", visual_image)
+		cv2.imshow("Pressure", visual_image)
 		# if cv2.waitKey(1) & 0xff == 27:
 		# 	break
 		# _, angle, speed = self.model(images, hmd_yaw=0)
