@@ -59,8 +59,8 @@ class Brain:
 		if self.start_signal == 1:
 			self.start_signal = 0
 			for i in range(50):
-				print(i)
 				total_image = q.get()
+				print(total_image)
 				self.base_images.append(total_image[-1])
 				time.sleep(0.1)
 			base_images = np.array(self.base_images[:-30])
