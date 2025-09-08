@@ -30,22 +30,22 @@ def main(
 
     while storage.frameCount < max_frame:
 
-        if start_signal == 1:
-            start_signal = 0
-            print('get ready')
-            for i in range(30):
-                pass
-            print('Initial arm data collecting')
-            for i in range(50):
-                total_image = sensor.get()
-                base_images.append(total_image)
-            base_images = np.array(base_images)
-            base_image = np.mean(base_images, axis=0)
-            print(total_image.shape)
+        # if start_signal == 1:
+        #     start_signal = 0
+        #     print('get ready')
+        #     for i in range(30):
+        #         pass
+        #     print('Initial arm data collecting')
+        #     for i in range(50):
+        #         total_image = sensor.get()
+        #         base_images.append(total_image)
+        #     base_images = np.array(base_images)
+        #     base_image = np.mean(base_images, axis=0)
+        #     print(total_image.shape)
 
 
         total_image = sensor.get()
-        total_image = total_image - base_image
+        total_image = total_image #- base_image
 
         #visualize
         visual_image = copy.deepcopy(total_image)
