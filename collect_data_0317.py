@@ -54,7 +54,7 @@ def main(
         visual_image = cv2.resize(visual_image, (500, 500))
         total_image2 = copy.deepcopy(total_image)
 
-        total_image2 /= 1500
+        total_image2 /= 1500.0
         total_image2 = total_image2 * 255
         total_image2 = np.clip(total_image2, 0 ,255)
         # print(total_image2)
