@@ -75,38 +75,38 @@ def track_marker(participant_num):
     poly = np.poly1d(coeffs)
     x_fit = np.linspace(min(np.array(trajectory_list[0])[:, 0]), max(np.array(trajectory_list[0])[:, 0]), 300)
     y_fit = poly(x_fit)
-    plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[0], color='black')
+    # plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[0], color='black')
     base_x_fit = x_fit[0]
     base_y_fit = y_fit[0]
 
-    coeffs = np.polyfit(np.array(trajectory_list[1])[:, 0], np.array(trajectory_list[1])[:, 1], deg=3)
-    poly = np.poly1d(coeffs)
-    x_fit = np.linspace(min(np.array(trajectory_list[1])[:, 0]), max(np.array(trajectory_list[1])[:, 0]), 300)
-    y_fit = poly(x_fit)
-    x_fit = x_fit + (base_x_fit - x_fit[0])
-    y_fit = y_fit + (base_y_fit - y_fit[0])
-    plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[1], color='blue')
-
-    coeffs = np.polyfit(np.array(trajectory_list[2])[:, 0], np.array(trajectory_list[2])[:, 1], deg=3)
-    poly = np.poly1d(coeffs)
-    x_fit = np.linspace(min(np.array(trajectory_list[2])[:, 0]), max(np.array(trajectory_list[2])[:, 0]), 300)
-    y_fit = poly(x_fit)
-    x_fit = x_fit + (base_x_fit - x_fit[0])
-    y_fit = y_fit + (base_y_fit - y_fit[0])
-    plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[2], color='red')
-
-    coeffs = np.polyfit(np.array(trajectory_list[3])[:, 0], np.array(trajectory_list[3])[:, 1], deg=3)
-    poly = np.poly1d(coeffs)
-    x_fit = np.linspace(min(np.array(trajectory_list[3])[:, 0]), max(np.array(trajectory_list[3])[:, 0]), 300)
-    y_fit = poly(x_fit)
-    x_fit = x_fit + (base_x_fit - x_fit[0])
-    y_fit = y_fit + (base_y_fit - y_fit[0])
-    plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[3], color='green')
-    # plt.plot(np.array(trajectory_list[0])[:, 0], np.array(trajectory_list[0])[:, 1], 'o--',
-    #          label=participant_data_list[1], color='black')  # 원래 점
-    # plt.plot(np.array(trajectory_list[1])[:, 0], np.array(trajectory_list[1])[:, 1], 'o--', label=participant_data_list[1], color='blue')# 원래 점
-    # plt.plot(np.array(trajectory_list[2])[:, 0], np.array(trajectory_list[2])[:, 1], 'o--', label=participant_data_list[2], color='red')
-    # plt.plot(np.array(trajectory_list[3])[:, 0], np.array(trajectory_list[3])[:, 1], 'o--', label=participant_data_list[3], color='green')  # 원래 점
+    # coeffs = np.polyfit(np.array(trajectory_list[1])[:, 0], np.array(trajectory_list[1])[:, 1], deg=3)
+    # poly = np.poly1d(coeffs)
+    # x_fit = np.linspace(min(np.array(trajectory_list[1])[:, 0]), max(np.array(trajectory_list[1])[:, 0]), 300)
+    # y_fit = poly(x_fit)
+    # x_fit = x_fit + (base_x_fit - x_fit[0])
+    # y_fit = y_fit + (base_y_fit - y_fit[0])
+    # plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[1], color='blue')
+    #
+    # coeffs = np.polyfit(np.array(trajectory_list[2])[:, 0], np.array(trajectory_list[2])[:, 1], deg=3)
+    # poly = np.poly1d(coeffs)
+    # x_fit = np.linspace(min(np.array(trajectory_list[2])[:, 0]), max(np.array(trajectory_list[2])[:, 0]), 300)
+    # y_fit = poly(x_fit)
+    # x_fit = x_fit + (base_x_fit - x_fit[0])
+    # y_fit = y_fit + (base_y_fit - y_fit[0])
+    # plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[2], color='red')
+    #
+    # coeffs = np.polyfit(np.array(trajectory_list[3])[:, 0], np.array(trajectory_list[3])[:, 1], deg=3)
+    # poly = np.poly1d(coeffs)
+    # x_fit = np.linspace(min(np.array(trajectory_list[3])[:, 0]), max(np.array(trajectory_list[3])[:, 0]), 300)
+    # y_fit = poly(x_fit)
+    # x_fit = x_fit + (base_x_fit - x_fit[0])
+    # y_fit = y_fit + (base_y_fit - y_fit[0])
+    # plt.plot(x_fit, y_fit, 'o--', label=participant_data_list[3], color='green')
+    plt.plot(np.array(trajectory_list[0])[:, 0], np.array(trajectory_list[0])[:, 1], 'o--',
+             label=participant_data_list[1], color='black')  # 원래 점
+    plt.plot(np.array(trajectory_list[1])[:, 0], np.array(trajectory_list[1])[:, 1], 'o--', label=participant_data_list[1], color='blue')# 원래 점
+    plt.plot(np.array(trajectory_list[2])[:, 0], np.array(trajectory_list[2])[:, 1], 'o--', label=participant_data_list[2], color='red')
+    plt.plot(np.array(trajectory_list[3])[:, 0], np.array(trajectory_list[3])[:, 1], 'o--', label=participant_data_list[3], color='green')  # 원래 점
 
     # plt.plot(x_smooth, y_smooth, '-', label=participant_data_list[i], color='blue')  # 스무딩 곡선
     plt.title("Smoothed 2D Curve")
