@@ -73,9 +73,10 @@ def main(
         ts = getUnixTimestamp()
 
         #imu
-        arduino.write('imu'.encode('utf-8'))
-        sleep(0.03)
-        imu = float(arduino.readline().decode('utf-8').strip())
+        # arduino.write('imu'.encode('utf-8'))
+        # sleep(0.03)
+        # imu = float(arduino.readline().decode('utf-8').strip())
+        imu = 0
         print(imu)
 
         #store data
