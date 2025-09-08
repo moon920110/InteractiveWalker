@@ -46,7 +46,7 @@ def main(
 
         total_image = sensor.get()
         # total_image = total_image #- base_image
-        total_image = total_image.astype(np.unit16)  # - base_image
+        total_image = total_image.astype(np.uint16)  # - base_image
 
         #visualize
         visual_image = copy.deepcopy(total_image)
