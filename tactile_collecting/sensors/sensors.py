@@ -38,6 +38,7 @@ class Sensor:
         i = 0
         while not self.exit.is_set():
             data = b''
+            print('stage at _read does empty? :', stage.empty)
             if not stage.empty():
                 stage_condition = stage.get()
                 if stage_condition == 'initialize':
