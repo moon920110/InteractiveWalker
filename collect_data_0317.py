@@ -6,7 +6,7 @@ from tactile_collecting.sensors.common.dataset_tools import *
 import numpy as np
 from time import time, sleep
 import serial
-from queue import Queue
+from multiprocessing import Manager
 
 
 def main(
@@ -17,7 +17,9 @@ def main(
         counter = 0,
         norm_img_list = []
     ):
-    stage = Queue(1)
+    manager = Manager()
+    stage = manager.Queue(1)
+
     stage.put('initialize')
 
     sensor = MultiSensors(['/dev/ttyUSB0'], stage)
