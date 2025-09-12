@@ -46,6 +46,7 @@ def main(
         #     base_image = np.mean(base_images, axis=0)
         #     print(total_image.shape)
 
+        print(storage.frameCount)
         if storage.frameCount == 50:
             stage.put('collect')
             print('tactile signal mode changed to collect')
