@@ -11,7 +11,8 @@ class Sensor:
     def __init__(self, port, baudrate, timeout, stage):
         self.queue = Manager().Queue()
         self.exit = mp.Event()
-        self.process = mp.Process(target=self._read, args=(self.queue, port, baudrate, timeout, stage))
+        self.stage = stage
+        self.process = mp.Process(target=self._read, args=(self.queue, port, baudrate, timeout, self.stage))
 
     def start(self):
         self.process.start()
