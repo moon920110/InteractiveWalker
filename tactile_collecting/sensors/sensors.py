@@ -8,10 +8,10 @@ from tactile_collecting.sensors.app.FramerateMonitor import FramerateMonitor
 
 
 class Sensor:
-    def __init__(self, port, baudrate, timeout):
+    def __init__(self, port, baudrate, timeout, stage):
         self.queue = Manager().Queue()
         self.exit = mp.Event()
-        self.process = mp.Process(target=self._read, args=(self.queue, port, baudrate, timeout))
+        self.process = mp.Process(target=self._read, args=(self.queue, port, baudrate, timeout, stage))
 
     def start(self):
         self.process.start()
@@ -30,7 +30,7 @@ class Sensor:
                 result = self.queue.get()
         return result
     
-    def _read(self, queue, port, baudrate, timeout): # communicate with arduino board
+    def _read(self, queue, port, baudrate, timeout, stage): # communicate with arduino board
         self.ser = serial.Serial(port, baudrate=baudrate, timeout=timeout)
         _sensor_bitshift = 6
         _sensor_sample_size = (32, 32)
@@ -38,6 +38,14 @@ class Sensor:
         i = 0
         while not self.exit.is_set():
             data = b''
+            if not stage.empty():
+                stage_condition = stage.get()
+                if stage_condition == 'initialize':
+                    self.ser.write('i'.encode('utf-8'))
+                    print('tactile signal initializing signal sent to ESP32')
+                elif stage_condition == 'collect':
+                    self.ser.write('c'.encode('utf-8'))
+                    print('tactile signal mode changing signal sent to ESP32')
             while len(data) == 0:
                 self.ser.reset_input_buffer()
                 self.ser.write('a'.encode('utf-8'))
@@ -56,8 +64,9 @@ class Sensor:
             i += 1
 
 class MultiSensors:
-    def __init__(self, ports):
+    def __init__(self, ports, stage):
         self.ports = ports
+        self.stage = stage
         self.make_sensors()
 
         self.queue = Manager().Queue()
@@ -69,7 +78,7 @@ class MultiSensors:
     def make_sensors(self):
         sensors = []
         for port in self.ports:
-            sensors.append(Sensor(port=port, baudrate=1000000, timeout=1.0))
+            sensors.append(Sensor(port=port, baudrate=1000000, timeout=1.0, stage=self.stage))
         self.sensors = sensors
     
     def init_sensors(self):

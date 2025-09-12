@@ -6,6 +6,7 @@ from tactile_collecting.sensors.common.dataset_tools import *
 import numpy as np
 from time import time, sleep
 import serial
+from queue import Queue
 
 
 def main(
@@ -16,8 +17,10 @@ def main(
         counter = 0,
         norm_img_list = []
     ):
+    stage = Queue(1)
+    stage.put('initialize')
 
-    sensor = MultiSensors(['/dev/ttyUSB0'])
+    sensor = MultiSensors(['/dev/ttyUSB0'], stage)
     print("initializing sensors...")
     sensor.init_sensors()
     print("initializing sensors...Done")
@@ -42,6 +45,10 @@ def main(
         #     base_images = np.array(base_images)
         #     base_image = np.mean(base_images, axis=0)
         #     print(total_image.shape)
+
+        if storage.frameCount == 50:
+            stage.put('collect')
+            print('tactile signal mode changed to collect')
 
 
         total_image = sensor.get()
