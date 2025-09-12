@@ -1,3 +1,5 @@
+import time
+
 import serial
 import numpy as np
 import cv2
@@ -45,9 +47,13 @@ class Sensor:
                 if stage_condition == 'initialize':
                     self.ser.write('i'.encode('utf-8'))
                     print('tactile signal initializing signal sent to ESP32')
+                    time.sleep(1)
+                    continue
                 elif stage_condition == 'collect':
                     self.ser.write('c'.encode('utf-8'))
                     print('tactile signal mode changing signal sent to ESP32')
+                    time.sleep(1)
+                    continue
             while len(data) == 0:
                 self.ser.reset_input_buffer()
                 self.ser.write('a'.encode('utf-8'))
