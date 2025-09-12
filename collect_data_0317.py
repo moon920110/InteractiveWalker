@@ -47,6 +47,7 @@ def main(
         #     print(total_image.shape)
 
         print(storage.frameCount)
+        print(stage.empty())
         if storage.frameCount == 50:
             stage.put('collect')
             print('tactile signal mode changed to collect')
