@@ -9,6 +9,7 @@ from parts.brain import Brain
 import pyrealsense2 as rs
 import numpy as np
 import cv2
+from multiprocessing import Manager
 
 print('check out test')
 
@@ -57,6 +58,9 @@ class Walker:
         self.left_turn_scale = 1
         self.right_turn_scale = 1
         self.precommand = None
+        manager = Manager()
+        self.stage = manager.Queue(1)
+        self.stage.put('initialize')
 
         # TODO: IMU
         self.tilt = -50
@@ -73,14 +77,14 @@ class Walker:
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
 
-        self.brain = Brain(logger=self.logger)
+        self.brain = Brain(logger=self.logger, stage=self.stage)
 
         self.stop_event = threading.Event()
         self.init()
 
 
     def init(self):
-        brain_check = self.brain.init()
+        brain_check = self.brain.init(ports=["/dev/ttyUSB0"], stage=self.stage)
 
 
 

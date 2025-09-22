@@ -67,6 +67,7 @@ class Sensor:
             data_matrix = data_matrix[0::2] * (2 ** _sensor_bitshift) + data_matrix[1::2]
             data_matrix = data_matrix.reshape(_sensor_sample_size)
 
+
             # append queue
             queue.put(data_matrix)
             i += 1
