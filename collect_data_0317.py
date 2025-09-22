@@ -33,7 +33,7 @@ def main(
     print('calibration done! collection strat at ', base_time)
     arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
     bad_row_indexs = [16, 27]
-    bad_col_indexs = [9]
+    bad_col_indexs = [9, 19]
 
     while storage.frameCount < max_frame:
 
