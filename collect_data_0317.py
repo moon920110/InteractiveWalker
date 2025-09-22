@@ -32,6 +32,8 @@ def main(
     base_time = time()
     print('calibration done! collection strat at ', base_time)
     arduino = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=.1)
+    bad_row_indexs = [16, 27]
+    bad_col_indexs = [9]
 
     while storage.frameCount < max_frame:
 
@@ -56,6 +58,16 @@ def main(
 
 
         total_image = sensor.get()
+        for row_index in bad_row_indexs:
+            prev_row = total_image[row_index - 1,:].astype(np.float32)
+            next_row = total_image[row_index + 1,:].astype(np.float32)
+            total_image[row_index,:] = ((prev_row + next_row) / 2).astype(np.uint8)
+
+        for col_index in bad_col_indexs:
+            prev_row = total_image[:, col_index - 1].astype(np.float32)
+            next_row = total_image[:, col_index + 1].astype(np.float32)
+            total_image[:, col_index] = ((prev_row + next_row) / 2).astype(np.uint8)
+
         base_base_image = np.full(total_image.shape, 4096) - total_image
         base3_image = base_base_image - np.min(base_base_image)
         total_image  = np.clip(((base3_image/np.max(base3_image)) * 255), 0, 255)

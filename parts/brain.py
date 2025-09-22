@@ -25,6 +25,8 @@ class Brain:
         self.left_arm_x_range = None
         self.left_arm_y_range = None
         self.stage = stage
+        self.bad_row_indexs = [16, 27]
+        self.bad_col_indexs = [9]
 
     def init(self, ports=["/dev/ttyUSB0"], stage=None):
         try:
@@ -70,6 +72,7 @@ class Brain:
                 self.base_images.append(total_image[-1])
             self.stage.put('collect')
             base_images = np.array(self.base_images[:-30])
+
             self.base_image = np.max(base_images, axis=0)
             print('base_image:', self.base_image)
             base_base_image = np.full(self.base_image.shape, 4096) - self.base_image
