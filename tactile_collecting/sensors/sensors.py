@@ -200,6 +200,7 @@ class SensorEnv:
 
         self.fps = 0
         self._ready()
+        print('sensorEnv started')
 
     def _ready(self):
         self.sensor.init_sensors()
