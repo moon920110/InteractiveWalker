@@ -51,11 +51,15 @@ def main(
         print(storage.frameCount)
         print('stage at main code does empty? :', stage.empty())
         if storage.frameCount == 50:
-            stage.put('collect')
+            # stage.put('collect')
             print('tactile signal mode changed to collect')
 
 
         total_image = sensor.get()
+        base_base_image = np.full(total_image.shape, 4096) - total_image
+        base3_image = base_base_image - np.min(base_base_image)
+        total_image  = ((base3_image/np.max(base3_image)) * 255)
+
         # total_image = total_image #- base_image
         total_image = total_image.astype(np.float64)  # - base_image
 
@@ -64,16 +68,16 @@ def main(
         visual_image *= 255
         visual_image = visual_image.astype(np.uint8)
         visual_image = cv2.resize(visual_image, (500, 500))
-        total_image2 = copy.deepcopy(total_image)
-
-        total_image2 /= 1500.0
-        total_image2 = total_image2 * 255
-        total_image2 = np.clip(total_image2, 0 ,255)
+        # total_image2 = copy.deepcopy(total_image)
+        #
+        # total_image2 /= 1500.0
+        # total_image2 = total_image2 * 255
+        # total_image2 = np.clip(total_image2, 0 ,255)
         # print(total_image2)
 
-        total_image2 = cv2.resize(total_image2.astype(np.uint8), (500, 500))
+        # total_image2 = cv2.resize(visual_image.astype(np.uint8), (500, 500))
 
-        cv2.imshow("Pressure", total_image2)
+        cv2.imshow("Pressure", visual_image)
         if cv2.waitKey(1) & 0xff == 27:
             break
 
