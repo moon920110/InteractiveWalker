@@ -61,11 +61,13 @@ def main(
         for row_index in bad_row_indexs:
             prev_row = total_image[row_index - 1,:].astype(np.float32)
             next_row = total_image[row_index + 1,:].astype(np.float32)
+            print('row:',((prev_row + next_row) / 2).astype(np.uint8))
             total_image[row_index,:] = ((prev_row + next_row) / 2).astype(np.uint8)
 
         for col_index in bad_col_indexs:
             prev_row = total_image[:, col_index - 1].astype(np.float32)
             next_row = total_image[:, col_index + 1].astype(np.float32)
+            print('col:', ((prev_row + next_row) / 2).astype(np.uint8))
             total_image[:, col_index] = ((prev_row + next_row) / 2).astype(np.uint8)
 
         base_base_image = np.full(total_image.shape, 4096) - total_image
