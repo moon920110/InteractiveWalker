@@ -65,6 +65,7 @@ class Brain:
                 #     print(stage_data)
                 #     self.stage.put(stage_data)
                 print(i)
+
                 total_image = self.sensor.get()
                 self.base_images.append(total_image[-1])
             base_images = np.array(self.base_images[:-30])
