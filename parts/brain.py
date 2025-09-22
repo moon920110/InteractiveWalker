@@ -68,6 +68,7 @@ class Brain:
 
                 total_image = self.sensor.get()
                 self.base_images.append(total_image[-1])
+            self.stage.put('collect')
             base_images = np.array(self.base_images[:-30])
             self.base_image = np.mean(base_images, axis=0)
             temp = np.array(np.transpose(
