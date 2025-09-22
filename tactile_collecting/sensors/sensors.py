@@ -180,7 +180,7 @@ class MultiSensors:
             sensor.close()
 
 class SensorEnv:
-    def __init__(self, ports, stack_num, adaptive_calibration, normalize=True):
+    def __init__(self, ports, stack_num, adaptive_calibration, stage, normalize=True):
         self.stack_num = stack_num
         self.normalize = normalize
         self.sensor = MultiSensors(ports)
