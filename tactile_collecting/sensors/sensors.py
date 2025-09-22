@@ -183,7 +183,7 @@ class SensorEnv:
     def __init__(self, ports, stack_num, adaptive_calibration, stage, normalize=True):
         self.stack_num = stack_num
         self.normalize = normalize
-        self.sensor = MultiSensors(ports)
+        self.sensor = MultiSensors(ports, stage)
         self.buffer = []
 
         denoise_sec = 1
