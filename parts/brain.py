@@ -71,6 +71,17 @@ class Brain:
             self.stage.put('collect')
             base_images = np.array(self.base_images[:-30])
             self.base_image = np.mean(base_images, axis=0)
+            print('base_image:', self.base_image)
+            base_base_image = np.full(self.base_image.shape, 4096)
+            print('b2se_image:', base_base_image)
+            base3_image = base_base_image - np.min(base_base_image)
+            print('b3se_image:', base3_image)
+
+            cv2.imshow("Corrupted", base3_image)
+            # cv2.imshow("Restored with NumPy", restored_image)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+
             temp = np.array(np.transpose(
                 np.array([self.base_image[21:, :] / 100, self.base_image[21:, :] / 100, self.base_image[21:, :] / 100]),
                 (1, 2, 0)), dtype='uint8')
