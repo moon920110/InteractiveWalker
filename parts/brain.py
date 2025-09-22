@@ -60,10 +60,10 @@ class Brain:
         if self.start_signal == 1:
             self.start_signal = 0
             for i in range(50):
-                if not self.stage.empty():
-                    stage_data = self.stage.get()
-                    print(stage_data)
-                    self.stage.put(stage_data)
+                # if not self.stage.empty():
+                #     stage_data = self.stage.get()
+                #     print(stage_data)
+                #     self.stage.put(stage_data)
                 print(i)
                 total_image = self.sensor.get()
                 self.base_images.append(total_image[-1])
