@@ -75,6 +75,7 @@ class Brain:
             base_base_image = np.full(self.base_image.shape, 4096) - self.base_image
             print('b2se_image:', base_base_image)
             base3_image = base_base_image - np.min(base_base_image)
+            np.savetxt('base3.csv', ((base3_image/np.max(base3_image)) * 255), delimiter=',')
             print('b3se_image:', base3_image)
 
             cv2.imshow("Corrupted", ((base3_image/np.max(base3_image)) * 255).astype(np.uint8))
