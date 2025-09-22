@@ -60,16 +60,16 @@ def main(
         total_image = sensor.get()
         print('total image:', total_image.shape)
         for row_index in bad_row_indexs:
-            prev_row = total_image[row_index - 1,:].astype(np.float32) / 2
-            next_row = total_image[row_index + 1,:].astype(np.float32) / 2
-            print('row:',(prev_row + next_row).astype(np.uint8))
-            total_image[row_index,:] = (prev_row + next_row).astype(np.uint8)
+            prev_row = total_image[row_index - 1,:].astype(np.float32)
+            next_row = total_image[row_index + 1,:].astype(np.float32)
+            print('row:',((prev_row + next_row) / 2).astype(np.float32))
+            total_image[row_index,:] = ((prev_row + next_row) / 2).astype(np.float32)
 
         for col_index in bad_col_indexs:
             prev_col = total_image[:, col_index - 1].astype(np.float32)
             next_col = total_image[:, col_index + 1].astype(np.float32)
-            print('col:', ((prev_col + next_col) / 2).astype(np.uint8))
-            total_image[:, col_index] = ((prev_col + next_col) / 2).astype(np.uint8)
+            print('col:', ((prev_col + next_col) / 2).astype(np.float32))
+            total_image[:, col_index] = ((prev_col + next_col) / 2).astype(np.float32)
 
         base_base_image = np.full(total_image.shape, 4096) - total_image
         base3_image = base_base_image - np.min(base_base_image)
