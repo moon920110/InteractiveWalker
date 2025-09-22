@@ -58,6 +58,7 @@ def main(
 
 
         total_image = sensor.get()
+        print('total image:', total_image.shape)
         for row_index in bad_row_indexs:
             prev_row = total_image[row_index - 1,:].astype(np.float32)
             next_row = total_image[row_index + 1,:].astype(np.float32)
