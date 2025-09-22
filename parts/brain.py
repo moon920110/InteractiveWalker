@@ -70,7 +70,7 @@ class Brain:
                 self.base_images.append(total_image[-1])
             self.stage.put('collect')
             base_images = np.array(self.base_images[:-30])
-            self.base_image = np.mean(base_images, axis=0)
+            self.base_image = np.max(base_images, axis=0)
             print('base_image:', self.base_image)
             base_base_image = np.full(self.base_image.shape, 4096) - self.base_image
             print('b2se_image:', base_base_image)
