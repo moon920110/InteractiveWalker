@@ -58,14 +58,14 @@ def main(
         total_image = sensor.get()
         base_base_image = np.full(total_image.shape, 4096) - total_image
         base3_image = base_base_image - np.min(base_base_image)
-        total_image  = ((base3_image/np.max(base3_image)) * 255)
+        total_image  = np.clip(((base3_image/np.max(base3_image)) * 255), 0, 255)
 
         # total_image = total_image #- base_image
         total_image = total_image.astype(np.float64)  # - base_image
 
         #visualize
         visual_image = copy.deepcopy(total_image)
-        visual_image *= 255
+        # visual_image *= 255
         visual_image = visual_image.astype(np.uint8)
         visual_image = cv2.resize(visual_image, (500, 500))
         # total_image2 = copy.deepcopy(total_image)
