@@ -71,13 +71,11 @@ class Sensor:
             for row_index in self.bad_row_indexs:
                 prev_row = data_matrix[row_index - 1, :].astype(np.float32)
                 next_row = data_matrix[row_index + 1, :].astype(np.float32)
-                print('row:', ((prev_row + next_row) / 2).astype(np.float32))
                 data_matrix[row_index, :] = ((prev_row + next_row) / 2).astype(np.float32)
 
             for col_index in self.bad_col_indexs:
                 prev_col = data_matrix[:, col_index - 1].astype(np.float32)
                 next_col = data_matrix[:, col_index + 1].astype(np.float32)
-                print('col:', ((prev_col + next_col) / 2).astype(np.float32))
                 data_matrix[:, col_index] = ((prev_col + next_col) / 2).astype(np.float32)
 
             data_matrix = np.full(data_matrix.shape, 4096) - data_matrix

@@ -75,7 +75,7 @@ class Brain:
             temp = np.array(np.transpose(
                 np.array([self.base_image[21:, :] / 100, self.base_image[21:, :] / 100, self.base_image[21:, :] / 100]),
                 (1, 2, 0)), dtype='uint8')
-            temp[temp <= 30] = 0
+            temp[temp <= 100] = 0
             temp = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
             right_arm_cnts, _ = cv2.findContours(temp, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
             sorted_right_arm_cnts = sorted(right_arm_cnts, key=cv2.contourArea, reverse=True)
@@ -91,7 +91,7 @@ class Brain:
                 np.array([self.base_image[10:21, :] / 100, self.base_image[10:21, :] / 100,
                           self.base_image[10:21, :] / 100]),
                 (1, 2, 0)), dtype='uint8')
-            temp[temp <= 30] = 0
+            temp[temp <= 100] = 0
             temp = cv2.cvtColor(cv2.UMat(temp), cv2.COLOR_BGR2GRAY)
             left_arm_cnts, _ = cv2.findContours(temp, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
             sorted_left_arm_cnts = sorted(left_arm_cnts, key=cv2.contourArea, reverse=True)
