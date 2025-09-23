@@ -62,29 +62,15 @@ class Brain:
         if self.start_signal == 1:
             self.start_signal = 0
             for i in range(50):
-                # if not self.stage.empty():
-                #     stage_data = self.stage.get()
-                #     print(stage_data)
-                #     self.stage.put(stage_data)
-                print(i)
-
                 total_image = self.sensor.get()
                 self.base_images.append(total_image[-1])
             self.stage.put('collect')
             base_images = np.array(self.base_images[:-30])
 
             self.base_image = np.max(base_images, axis=0)
-            print('base_image:', self.base_image)
-            base_base_image = np.full(self.base_image.shape, 4096) - self.base_image
-            print('b2se_image:', base_base_image)
-            base3_image = base_base_image - np.min(base_base_image)
-            np.savetxt('base3.csv', ((base3_image/np.max(base3_image)) * 255), delimiter=',')
-            print('b3se_image:', base3_image)
+            self.base_image = self.base_image - np.min(self.base_image)
+            np.savetxt('base.csv', self.base_image, delimiter=',')
 
-            cv2.imshow("Corrupted", ((base3_image/np.max(base3_image)) * 255).astype(np.uint8))
-            # cv2.imshow("Restored with NumPy", restored_image)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
 
             temp = np.array(np.transpose(
                 np.array([self.base_image[21:, :] / 100, self.base_image[21:, :] / 100, self.base_image[21:, :] / 100]),

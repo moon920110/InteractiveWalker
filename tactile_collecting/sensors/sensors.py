@@ -15,6 +15,8 @@ class Sensor:
         self.exit = mp.Event()
         self.stage = stage
         self.process = mp.Process(target=self._read, args=(self.queue, port, baudrate, timeout, self.stage))
+        self.bad_row_indexs = [16, 27]
+        self.bad_col_indexs = [9, 19]
 
     def start(self):
         self.process.start()
@@ -38,7 +40,6 @@ class Sensor:
         _sensor_bitshift = 6
         _sensor_sample_size = (32, 32)
 
-        i = 0
         while not self.exit.is_set():
             data = b''
             # print('stage at _read does empty? :', stage.empty())
@@ -67,10 +68,22 @@ class Sensor:
             data_matrix = data_matrix[0::2] * (2 ** _sensor_bitshift) + data_matrix[1::2]
             data_matrix = data_matrix.reshape(_sensor_sample_size)
 
+            for row_index in self.bad_row_indexs:
+                prev_row = data_matrix[row_index - 1, :].astype(np.float32)
+                next_row = data_matrix[row_index + 1, :].astype(np.float32)
+                print('row:', ((prev_row + next_row) / 2).astype(np.float32))
+                data_matrix[row_index, :] = ((prev_row + next_row) / 2).astype(np.float32)
+
+            for col_index in self.bad_col_indexs:
+                prev_col = data_matrix[:, col_index - 1].astype(np.float32)
+                next_col = data_matrix[:, col_index + 1].astype(np.float32)
+                print('col:', ((prev_col + next_col) / 2).astype(np.float32))
+                data_matrix[:, col_index] = ((prev_col + next_col) / 2).astype(np.float32)
+
+            data_matrix = np.full(data_matrix.shape, 4096) - data_matrix
 
             # append queue
             queue.put(data_matrix)
-            i += 1
 
 class MultiSensors:
     def __init__(self, ports, stage):
