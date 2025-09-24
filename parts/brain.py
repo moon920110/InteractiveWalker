@@ -131,13 +131,13 @@ class Brain:
             STS = False
 
         # print(forback, leftright)
-        # visual_image = copy.deepcopy(images[-1]) * 255
-        # visual_image = np.clip(visual_image, 0, 255)
-        # visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
+        visual_image = copy.deepcopy(image) * 255
+        visual_image = np.clip(visual_image, 0, 255)
+        visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
 
-        # cv2.imshow("Pressure", visual_image)
-        # if cv2.waitKey(1) & 0xff == 27:
-        # 	break
+        cv2.imshow("Pressure", visual_image)
+        if cv2.waitKey(1) & 0xff == 27:
+            break
         # _, angle, speed = self.model(images, hmd_yaw=0)
         # angle = 0
         # speed = 0
