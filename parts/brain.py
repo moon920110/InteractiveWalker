@@ -105,7 +105,7 @@ class Brain:
 
         images = self.sensor.get()
         # image = np.clip(images[-1] - self.base_image, 0, 1500)
-        image = np.clip(images[-1], 0, 2500).astype(np.float64)
+        image = np.clip(images[-1] - np.min(images[-1]), 0, 2500).astype(np.float64)
         image /= float(2500)
         x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
         x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
@@ -125,7 +125,7 @@ class Brain:
                     np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end]) - \
                     np.mean(image[10:21, :][:self.left_arm_cy, x_from:x_end])  # + right
         print(np.mean(image[21:, :][:, :7]))
-        if np.mean(image[21:, :][:, :7]) >= 0.90:
+        if np.mean(image[21:, :][:, :7]) >= 0.20:
             STS = True
         else:
             STS = False
