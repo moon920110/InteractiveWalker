@@ -136,6 +136,7 @@ class Brain:
         visual_image = cv2.resize(visual_image.astype(np.uint8), (500, 500))
 
         cv2.imshow("Pressure", visual_image)
+        cv2.waitKey(1)
         # if cv2.waitKey(1) & 0xff == 27:
         #     break
         # _, angle, speed = self.model(images, hmd_yaw=0)
