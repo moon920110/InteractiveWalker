@@ -69,6 +69,7 @@ class Brain:
 
             self.base_image = np.max(base_images, axis=0)
             self.base_image = self.base_image - np.min(self.base_image)
+            print(np.min(self.base_image))
             np.savetxt('base.csv', self.base_image, delimiter=',')
 
 
@@ -104,8 +105,9 @@ class Brain:
             self.left_arm_y_range = h
 
         images = self.sensor.get()
-        image = np.clip(images[-1] - self.base_image, 0, 1500)
-        image /= 1500
+        # image = np.clip(images[-1] - self.base_image, 0, 1500)
+        image = np.clip(images[-1], 0, 2500)
+        image /= 2500
         x_from = self.right_arm_cx - int(self.right_arm_x_range / 2)
         x_end = self.right_arm_cx + int(self.right_arm_x_range / 2)
         # forback = np.mean(image[21:, :][:, self.right_arm_cx:self.right_arm_cx + int(self.right_arm_x_range * 0.7)]) -\
