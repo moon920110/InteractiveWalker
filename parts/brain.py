@@ -125,7 +125,7 @@ class Brain:
                     np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end]) - \
                     np.mean(image[10:21, :][:self.left_arm_cy, x_from:x_end])  # + right
         print(np.mean(image[21:, :][:, :7]))
-        if np.mean(image[21:, :][:, :7]) >= 0.30:
+        if np.mean(image[21:, :][:, :7]) >= 0.90:
             STS = True
         else:
             STS = False
