@@ -69,7 +69,6 @@ class Brain:
 
             self.base_image = np.max(base_images, axis=0)
             self.base_image = self.base_image - np.min(self.base_image)
-            print(np.min(self.base_image))
             np.savetxt('base.csv', self.base_image, delimiter=',')
 
 
@@ -125,8 +124,8 @@ class Brain:
                     np.mean(image[10:21, :][self.left_arm_cy:, x_from:x_end]) - \
                     np.mean(image[21:, :][self.right_arm_cy:, x_from:x_end]) - \
                     np.mean(image[10:21, :][:self.left_arm_cy, x_from:x_end])  # + right
-        # print(np.mean(image[21:, :][:, :7]))
-        if np.mean(image[21:, :][:, :7]) >= 0.15:
+        print(np.mean(image[21:, :][:, :7]))
+        if np.mean(image[21:, :][:, :7]) >= 0.30:
             STS = True
         else:
             STS = False
